@@ -10,6 +10,16 @@ function createActivityPlanResponse(req,res) {
             }
         })
     })
-}  
+}
 
-module.exports = {createActivityPlanResponse}
+function getActivityPlanResponse(req,res) {
+    activityDao.getActivityPlan().then(doc => {
+        res.send({
+            payload : {
+                data:doc
+            }
+        })
+    })
+}
+
+module.exports = {createActivityPlanResponse, getActivityPlanResponse}

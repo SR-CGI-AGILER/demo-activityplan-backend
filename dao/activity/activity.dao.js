@@ -5,10 +5,10 @@ function createActivityPlan(plan) {
         plan.body.map(eachitem => {
             // console.log(eachitem.text,"nkkn@@@2")
         const temp = new activity({
-            "text": eachitem.text,
-            "projectName" : eachitem.projectName,
-            "owner" : eachitem.owner
+            "date": eachitem.date,
+            "tasks" : eachitem.tasks
         })
+        console.log(temp,"dagf@@@@@@")
         temp.save(function(err,data){
             if(err)
             console.log(err)
@@ -18,4 +18,13 @@ function createActivityPlan(plan) {
 })
 }
 
-module.exports = {createActivityPlan}
+function getActivityPlan() {
+    return new Promise(function (resolve, reject){
+    activity.find({}, function(err,data) {
+        console.log(err)
+        resolve(data)
+    })
+    })
+}
+
+module.exports = {createActivityPlan,getActivityPlan}

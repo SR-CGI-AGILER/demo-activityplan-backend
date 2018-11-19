@@ -1,6 +1,7 @@
 const app = require('express')();
 const activity = require('./api/activity/index')
 const bodyParser = require('body-parser');
+const logger = require('morgan');
 const http = require('http').Server(app);
 const port = process.env.PORT || 3000;
 
@@ -15,6 +16,7 @@ app.use(function (req, res, next) {
 app.use(bodyParser.urlencoded({
     extended: false
 }))
+app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use('/api/v1',activity)
 
