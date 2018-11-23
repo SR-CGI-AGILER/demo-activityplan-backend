@@ -11,7 +11,7 @@ function createActivityPlan(plan) {
         console.log(temp,"dagf@@@@@@")
         temp.save(function(err,data){
             if(err)
-            console.log(err)
+            throw err
             resolve(data)
         })
     })

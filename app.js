@@ -1,5 +1,6 @@
 const app = require('express')();
 const activity = require('./api/activity/index')
+const backlog = require('./api/backlog/index')
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const http = require('http').Server(app);
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use('/api/v1',activity)
+app.use('/api/v1',backlog)
 
 http.listen(port, function () {
     console.log("listening on port:" + port);
