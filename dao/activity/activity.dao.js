@@ -7,8 +7,10 @@ function createActivityPlan(plan) {
             initiatives: plan.initiatives,
             tasks: plan.tasks
         })
+        
         newActivityPlan.save(function (err, data) {
             if (err) {
+                console.log("ERROR");
                 reject(err)
             } else {
                 resolve(data);
