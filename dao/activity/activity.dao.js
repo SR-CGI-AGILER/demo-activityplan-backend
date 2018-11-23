@@ -14,9 +14,10 @@ function createActivityPlan(plan) {
             console.log(err)
             resolve(data)
         })
-    })
+    }) 
 })
 }
+
 
 function getActivityPlan() {
     return new Promise(function (resolve, reject){
