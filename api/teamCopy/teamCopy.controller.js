@@ -1,39 +1,6 @@
-const activityDao = require('../../dao/activity/activity.dao');
 const teamCopyDao = require('../../dao/teamCopy/teamCopy.dao');
 
-function createActivityPlanResponse(req, res) {
-    console.log(typeof req.body);
-    var now = new Date();
-    console.log(now, "POST");
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var today = now.getFullYear() + "-" + (month) + "-" + (day);
-
-    const plan = {
-        createdAt: req.body.createdAt,
-        initiatives: req.body.initiatives,
-        tasks: req.body.tasks        
-    }
-
-    activityDao.createActivityPlan(plan).then(doc => {
-        // console.log('I AM HERE')
-        teamCopyDao.createTeamCopy(plan).then(doc => {
-            res.send({
-                payload: {
-                    data: doc
-                }
-            })
-        })
-        
-    }).catch(function(err){
-        res.send({
-            message: "Something went wrong!"
-        });
-    });
-
-}
-
-function getActivityPlanResponse(req, res) {
+function getTeamCopyResponse(req, res) {
     // console.log(req)
     const date = req.query.date;
     const initiatives = req.query.initiatives;
@@ -46,7 +13,7 @@ function getActivityPlanResponse(req, res) {
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth()+ 1)).slice(-2);
         var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        activityDao.getActivityPlan(today, "default").then(doc => {
+        teamCopyDao.getTeamCopy(today, "default").then(doc => {
             if(doc){
                 res.send({
                     payload: {
@@ -65,7 +32,7 @@ function getActivityPlanResponse(req, res) {
     }
     else{
         if(!initiatives){
-            activityDao.getActivityPlan(date, "default").then(doc=>{
+            teamCopyDao.getTeamCopy(date, "default").then(doc=>{
                 if(doc){
                     res.send({
                         payload: {
@@ -83,7 +50,7 @@ function getActivityPlanResponse(req, res) {
             })    
         }
         else{
-            activityDao.getActivityPlan(date, initiatives).then(doc => {
+            teamCopyDao.getTeamCopy(date, initiatives).then(doc => {
                 if(doc){
                     res.send({
                         payload: {
@@ -104,6 +71,5 @@ function getActivityPlanResponse(req, res) {
 }
 
 module.exports = {
-    createActivityPlanResponse,
-    getActivityPlanResponse
+    getTeamCopyResponse
 }

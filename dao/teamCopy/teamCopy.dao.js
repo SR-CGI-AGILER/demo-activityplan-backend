@@ -1,17 +1,15 @@
-const activity = require('../../model/activity');
+const teamCopy = require('../../model/teamCopy');
 
-function createActivityPlan(plan) {
+function createTeamCopy(plan) {
     return new Promise(function (resolve, reject) {
-        const newActivityPlan = new activity({
+        const newTeamCopy = new teamCopy({
             createdAt: plan.createdAt,
             initiatives: plan.initiatives,
             tasks: plan.tasks
         })
-        
-        newActivityPlan.save(function (err, data) {
+        newTeamCopy.save(function (err, data) {
             if (err) {
-                console.log("ERROR");
-                reject(err)
+                reject(err);
             } else {
                 resolve(data);
             }
@@ -19,12 +17,10 @@ function createActivityPlan(plan) {
     })
 }
 
-
-function getActivityPlan(today,initiatives) {
-    console.log(initiatives)
+function getTeamCopy(date, initiatives){
     return new Promise(function (resolve, reject) {
-        activity.findOne({
-            "createdAt": today,
+        teamCopy.findOne({
+            "createdAt": date,
             "initiatives":initiatives
         }, function (err, data) {
             if (err)
@@ -36,6 +32,6 @@ function getActivityPlan(today,initiatives) {
 }
 
 module.exports = {
-    createActivityPlan,
-    getActivityPlan
+    createTeamCopy,
+    getTeamCopy
 }

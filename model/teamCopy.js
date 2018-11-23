@@ -1,8 +1,8 @@
 var mongoose = require('../db-connection/mongo');
 var Schema = mongoose.Schema;
 
-var activitySchema = new Schema({
-    createdAt: {type:Date, unique:true},
+var teamCopySchema = new Schema({
+    createdAt: Date,
     initiatives: String,
     createdBy: {},
     tasks: [{
@@ -14,6 +14,6 @@ var activitySchema = new Schema({
     }]     
 });
 
-var activity = mongoose.model('activity', activitySchema);
+var teamCopy = mongoose.model('teamCopy', teamCopySchema);
 
-module.exports = activity;
+module.exports = teamCopy;
