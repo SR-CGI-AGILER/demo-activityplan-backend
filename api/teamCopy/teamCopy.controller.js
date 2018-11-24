@@ -70,6 +70,22 @@ function getTeamCopyResponse(req, res) {
     }
 }
 
+function updateTeamCopyResponse(req, res) {
+    let data1 = {
+        teamCopyDate: req.params.date,
+        taskId: req.params.taskId
+    };    
+    teamCopyDao.updateTeamCopy(data1).then(doc => {
+        res.send({
+            payload: {
+                data: doc
+                }
+        })
+    });
+
+}
+
 module.exports = {
-    getTeamCopyResponse
+    getTeamCopyResponse,
+    updateTeamCopyResponse
 }
