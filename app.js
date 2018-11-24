@@ -3,6 +3,9 @@ const activity = require('./api/activity/index');
 const teamCopy = require('./api/teamCopy/index');
 // const activity = require('./api/activity/index')
 const backlog = require('./api/backlog/index');
+// const activity = require('./api/activity/index')
+const scheduled = require('./api/scheduled/index')
+
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const http = require('http').Server(app);
@@ -24,6 +27,7 @@ app.use(bodyParser.json())
 app.use('/api/v1',activity)
 app.use('/api/v1',teamCopy)
 app.use('/api/v1',backlog)
+app.use('/api/v1',scheduled)
 
 http.listen(port, function () {
     console.log("listening on port:" + port);
