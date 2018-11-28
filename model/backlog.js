@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var backlogSchema = new Schema({
             initiative : String,
+            initiativeId : String,
             tasks: [
                      {
                         text : String,
@@ -11,7 +12,14 @@ var backlogSchema = new Schema({
                         owner : String,
                         status: String
                      } 
-                   ]
+                   ],
+            members: [
+               {
+                  name : String,
+                  email : String, 
+                  profilePicUrl: String
+               }
+            ]
             });
 
 var backlog = mongoose.model('backlog', backlogSchema);

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const backlogController = require('./backlog.controller')
 
-router.get('/backlog/:limit?/:page?', backlogController.getBacklogTasksResponse);
+router.get('/backlog/:initiativeId:limit?/:page?', backlogController.getBacklogTasksResponse);
 
 router.post('/backlog', backlogController.addBacklogTaskResponse);
 
