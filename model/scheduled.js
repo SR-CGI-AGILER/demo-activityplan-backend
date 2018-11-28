@@ -2,7 +2,8 @@ var mongoose = require('../db-connection/mongo');
 var Schema = mongoose.Schema;
 
 var scheduled = new Schema({
-    initiative: { type: String, unique:true },
+    initiative: String,
+    initiativeId:Number,
     tasks:[{ 
         text:String,
         projectName: String,
@@ -10,7 +11,14 @@ var scheduled = new Schema({
         owner: String,
         scheduled_For: Number,
         scheduled_On: Number,
-        status: String }]
+        status: String 
+    }],
+    member:[{
+        name:String,
+        email:String,
+        profilePicUrl:String
+    }]
+    
            
 });
 

@@ -1,7 +1,8 @@
 const scheduledDao = require('../../dao/scheduled/scheduled.dao')
 
 function createScheduledTaskResponse(req,res) {
-    
+ 
+   
     scheduledDao.createScheduledTask(req.body).then(doc =>{
         res.status('201').send({
            data:doc
@@ -11,14 +12,14 @@ function createScheduledTaskResponse(req,res) {
         error: err})
     })
 }
-function getScheduledOnTaskResponse(req,res){
+function getDefaultScheduledOnTaskResponse(req,res){
     let arr =[]
     var now = new Date();
     console.log(now,"POST");
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth()+ 1)).slice(-2);
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
-    scheduledDao.getScheduledOnTask().then(doc => {
+    scheduledDao.getDefaultScheduledOnTask(req.params.initiativeId).then(doc => {
 console.log(doc.tasks,"in doc")
 let temp = doc.tasks.map(task =>{
 //     console.log("task",task.scheduled_On,today)
@@ -44,14 +45,44 @@ let temp = doc.tasks.map(task =>{
        error: err})
     })
 }
-function getScheduledForTaskResponse(req,res){
+// function getScheduledForTaskResponse(req,res){
+//     let arr =[]
+//     var now = new Date();
+//     console.log(now,"POST");
+//     var day = ("0" + now.getDate()).slice(-2);
+//     var month = ("0" + (now.getMonth()+ 1)).slice(-2);
+//     var today = now.getFullYear() + "-" + (month) + "-" + (day);
+//     scheduledDao.getScheduledForTask().then(doc => {
+//         console.log(doc.tasks,"in doc")
+//         let temp = doc.tasks.map(task =>{
+//         //     console.log("task",task.scheduled_On,today)
+//             let a = new Date(today).getTime()
+//             console.log(a,"hhh");
+//             if(task.scheduled_For >= a){
+//                 console.log("tahhhsk",task)
+        
+//                 arr.push(task)
+//                 console.log(arr,"arrrr")
+//             }
+//         })
+//                 res.send({
+//             payload : {
+//                 data:arr
+//             }
+//         })
+//     }).catch(err => {
+//         res.send({message:'something went wrong  on task', 
+//        error: err})
+//     })
+// }
+function getDefaultScheduledForTaskResponse(req,res){
     let arr =[]
     var now = new Date();
     console.log(now,"POST");
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth()+ 1)).slice(-2);
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
-    scheduledDao.getScheduledForTask().then(doc => {
+    scheduledDao.getDefaultScheduledForTask(req.params.initiativeId).then(doc => {
         console.log(doc.tasks,"in doc")
         let temp = doc.tasks.map(task =>{
         //     console.log("task",task.scheduled_On,today)
@@ -75,9 +106,24 @@ function getScheduledForTaskResponse(req,res){
     })
 }
 
+function changeScheduledForTaskResponse(req, res) {
+    let data = {
+        taskId:req.params.taskId,
+        initiativeId: req.params.initiativeId,
+        scheduled_For:req.body.scheduled_For
+    };
+    console.log(data, "this is controller for due date")
+    scheduledDao.changeScheduledForTask(data).then(data => {
+        res.status('200').send({
+            data : data
+        })
+    })
+}
+
 
 module.exports = {
     createScheduledTaskResponse,
-    getScheduledOnTaskResponse,
-    getScheduledForTaskResponse
+    getDefaultScheduledForTaskResponse,
+    changeScheduledForTaskResponse,
+    getDefaultScheduledOnTaskResponse,
     }
