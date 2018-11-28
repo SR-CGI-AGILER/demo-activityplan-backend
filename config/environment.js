@@ -2,7 +2,7 @@ environment = process.env.NODE_ENV
 server = {}
 if(environment === 'dev'){
     server = {
-        host: 'localhost:3000',
+        host: 'localhost:4000',
         apiEndPoint: '/api/v1'
     }
 }

@@ -5,12 +5,13 @@ const teamCopy = require('./api/teamCopy/index');
 const backlog = require('./api/backlog/index');
 // const activity = require('./api/activity/index')
 const scheduled = require('./api/scheduled/index')
+const user = require('./api/user/index');
 const path = require('path');
 
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const http = require('http').Server(app);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const ENV = require('./config/environment');
 
 
@@ -25,8 +26,8 @@ const ENV = require('./config/environment');
         next();
     });
 // }
-console.log(path.resolve(__dirname , '../' , 'agiler-ui/dist/'))
-app.use('/', require('express').static(path.resolve(__dirname ,  './dist')));
+// console.log(path.resolve(__dirname , '../' , 'agiler-ui/dist/'))
+// app.use('/', require('express').static(path.resolve(__dirname ,  './dist')));
 
 
 
@@ -39,6 +40,7 @@ app.use(ENV.apiEndPoint,activity)
 app.use(ENV.apiEndPoint,teamCopy)
 app.use(ENV.apiEndPoint,backlog)
 app.use(ENV.apiEndPoint,scheduled)
+app.use(ENV.apiEndPoint,user)
 
 http.listen(port, function () {
     console.log("listening on port:" + port);
