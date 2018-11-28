@@ -4,6 +4,7 @@ function getBacklogTasksResponse(req,res){
     let queryParams = {
         limit: parseInt(req.query.limit) || 10,
         page: parseInt(req.query.page) || 0,
+        initiativeid: req.params.initiativeId
     }
     backlogDao.getBacklogTasks(queryParams).then(doc => {
         console.log(doc)
@@ -17,7 +18,7 @@ function getBacklogTasksResponse(req,res){
 
 function addBacklogTaskResponse(req,res){
     let temp = {
-        initiative : req.body.initiative,
+        initiativeid : req.body.initiativeId,
         tasks: req.body.tasks
     }
     backlogDao.addBacklogTask(temp).then(data => {

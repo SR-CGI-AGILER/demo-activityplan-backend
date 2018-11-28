@@ -1,11 +1,14 @@
 const backlog = require('../../model/backlog')
+const uniqid = require('uniqid');
+
 
 function getBacklogTasks(query) {
     return new Promise(function(resolve,reject){
-        backlog.find({})
+        backlog.find({"initiativeId":query.initiativeid})
                 .limit(query.limit)
                 .skip(query.page * query.limit)
                 .exec(function(err,data) {
+                    console.log(query.initiativeid,"Initiative ID")
             if(err)
             reject(err)
             else
@@ -17,7 +20,7 @@ function getBacklogTasks(query) {
 
 function addBacklogTask(task){
     return new Promise(function(resolve,reject){
-        backlog.findOne({"initiative":task.initiative},function(err,doc){
+        backlog.findOne({"initiativeId":task.initiativeid},function(err,doc){
             console.log(task.initiative)
             if(err){
             reject(err)
@@ -38,6 +41,7 @@ function addBacklogTask(task){
                 else{
                     const doc = new backlog()
                     doc.initiative = task.initiative
+                    doc.initiativeId = uniqid()
                     doc.tasks = []
                     task.tasks.map(eachitem => {
                         doc.tasks.push(eachitem)

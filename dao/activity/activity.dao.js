@@ -1,30 +1,41 @@
 const activity = require('../../model/activity');
 
 function createActivityPlan(plan) {
-    return new Promise(function(resolve,reject){
-        plan.body.map(eachitem => {
-            // console.log(eachitem.text,"nkkn@@@2")
-        const temp = new activity({
-            "date": eachitem.date,
-            "tasks" : eachitem.tasks
+    return new Promise(function (resolve, reject) {
+        const newActivityPlan = new activity({
+            createdAt: plan.createdAt,
+            initiatives: plan.initiatives,
+            tasks: plan.tasks
         })
-        console.log(temp,"dagf@@@@@@")
-        temp.save(function(err,data){
-            if(err)
-            throw err
-            resolve(data)
+        
+        newActivityPlan.save(function (err, data) {
+            if (err) {
+                console.log("ERROR");
+                reject(err)
+            } else {
+                resolve(data);
+            }
         })
-    })
-})
-}
-
-function getActivityPlan() {
-    return new Promise(function (resolve, reject){
-    activity.find({}, function(err,data) {
-        console.log(err)
-        resolve(data)
-    })
     })
 }
 
-module.exports = {createActivityPlan,getActivityPlan}
+
+function getActivityPlan(today,initiatives) {
+    console.log(initiatives)
+    return new Promise(function (resolve, reject) {
+        activity.findOne({
+            "createdAt": today,
+            "initiatives":initiatives
+        }, function (err, data) {
+            if (err)
+                reject(err);
+            else
+                resolve(data)
+        })
+    })
+}
+
+module.exports = {
+    createActivityPlan,
+    getActivityPlan
+}
