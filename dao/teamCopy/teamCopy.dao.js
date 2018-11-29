@@ -20,16 +20,16 @@ function createTeamCopy(plan) {
 function updateTeamCopy(data) {
     return new Promise(function (resolve, reject) {
         teamCopy.findOne({
-            "createdAt":new Date(data.teamCopyDate).toISOString()
+            "createdAt":new Date(data.teamCopyDate).getTime()
         },function(err, doc){
             if(err)
             {
                 console.log(err)
-            reject(err)
+                reject(err)
             }
             else{
                 doc.tasks.map(function(e){
-                let a = e._id.toString();
+                    let a = e._id.toString();
                     console.log(a,data.taskId,"each task")
                     if(a === data.taskId){
                         e.status = "Completed";
@@ -37,29 +37,90 @@ function updateTeamCopy(data) {
                 })
                 doc.save().then(function () {
                     resolve(doc)
-})
+                })
                 // resolve(doc);
             }
-        
         });
-        // console.log(a,"A")
-        // console.log(a.tasks,"is it an array?")
-        // a.tasks.map(function(e){
-        //     if(e._id === data.taskId)
-        //     {
-        //         if(e.status === "Standup"){
-        //             e.status = "Completed";
-        //         }
-        //        else
-        //        {
-        //            console.log("anirudha")
-        //        }
+    })
+}
+
+function updateTeamCopyNew(data) {
+    return new Promise(function (resolve, reject){
+        teamCopy.findOne({
+           'createdAt': new Date(data.teamCopyDate).toISOString()
+                }).exec(function(err,doc) {
+            // console.log(data.map(e => e.tasks), err)
+            if(err)
+            {
+                reject(err)
+            }
+            else{
+                   doc.tasks.map(function (eachDbTask) {
+                       data.arr.map(function(eachTask) {
+                        //    console.log(eachDbTask._id, eachTask.taskId)
+                           if (eachDbTask._id.toString() === eachTask.taskId ) {
+                               eachDbTask.status = eachTask.action
+                               console.log('Match Found')
+                           }
+                       })
+                   })
+                            doc.save().then(function(data) {
+                               resolve({"message": "the data is saved"})
+                            })
+                            
+            }
+        })
+        // }, function(err, doc){
+        //     if(err) {
+        //         // console.log(err,"error due to Atreya's fault");
+        //         reject(err)
         //     }
         //     else{
-        //         console.log("atreya")
+        //         console.log(doc,"atreya ka else");
+        //         // doc.tasks.map(function(task){
+        //         //     let id = task._id.toString();
+        //         //     // console.log(data.arr,"arr");
+        //         //     // data.arr.map(function(e){
+        //         //         // console.log(e.taskId,"taskId");
+        //         //         if(id === .taskId)
+        //         //         {
+        //         //             let ignoreCase= e.action.toUpperCase();
+        //         //             // console.log(ignoreCase,"ignoreCase");
+        //         //             if(ignoreCase === "NEW")
+        //         //             task.status = "New";
+        //         //             else if(ignoreCase === "COMPLETED")
+        //         //             task.status = "Completed";
+        //         //             else if(ignoreCase === "PENDING")
+        //         //             task.status = "Pending";
+        //         //         }
+        //         //     // })
+        //         //     // if(id === data.taskId)
+        //         //     // {
+        //         //     //     let ignoreCase= data.action.toUpperCase();
+        //         //     //     console.log(ignoreCase,"ignoreCase");
+        //         //     //     if(ignoreCase === "NEW")
+        //         //     //     task.status = "New";
+        //         //     //     else if(ignoreCase === "COMPLETED")
+        //         //     //     task.status = "Completed";
+        //         //     //     else if(ignoreCase === "PENDING")
+        //         //     //     task.status = "Pending";
+                    
+        //         //     // }
+        //         // })
+        //         // doc.save().then(function(err) {
+        //         //     if(err){
+        //         //         reject(err)
+        //         //     }
+        //         //     else{
+        //         //         resolve(doc);
+        //         //     }
+        //         // }).catch(function (err) {
+        //         //     resolve(err)
+        //         // })
+
         //     }
         // })
-    })
+    });
 }
 
 function getTeamCopy(date, initiatives){
@@ -79,5 +140,6 @@ function getTeamCopy(date, initiatives){
 module.exports = {
     createTeamCopy,
     getTeamCopy,
-    updateTeamCopy
+    updateTeamCopy,
+    updateTeamCopyNew
 }

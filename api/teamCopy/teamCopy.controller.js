@@ -81,11 +81,38 @@ function updateTeamCopyResponse(req, res) {
                 data: doc
                 }
         })
-    });
+    }).catch(err =>{
+        res.send(err)
+    })
+}
 
+function updateTeamCopyMarkasNew(req, res) {
+    // let data_array =[
+    //      {
+    //         teamCopyDate: req.params.date,
+    //         taskId: req.params.taskId,
+    //         action: req.body.action
+    //     }
+    // ]
+    let data  ={
+teamCopyDate: req.params.date,
+        arr : req.body
+    } 
+    //  console.log(data,"data");
+    // console.log(arr,"data in controller");
+    teamCopyDao.updateTeamCopyNew(data).then(doc => {
+        res.send({
+            payload: {
+                data: doc
+            }
+        })
+    }).catch(err =>{
+        res.send(err)
+    })
 }
 
 module.exports = {
     getTeamCopyResponse,
-    updateTeamCopyResponse
+    updateTeamCopyResponse,
+    updateTeamCopyMarkasNew
 }
