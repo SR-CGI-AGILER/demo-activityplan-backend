@@ -1,6 +1,7 @@
 const backlogDao = require('../../dao/backlog/backlog.dao');
 
 function getBacklogTasksResponse(req,res){
+    console.log(req.params)
     let queryParams = {
         limit: parseInt(req.query.limit) || 10,
         page: parseInt(req.query.page) || 0,
@@ -19,6 +20,7 @@ function getBacklogTasksResponse(req,res){
 function addBacklogTaskResponse(req,res){
     let temp = {
         initiativeid : req.body.initiativeId,
+        initiativeName: req.body.initiativeName,
         tasks: req.body.tasks
     }
     backlogDao.addBacklogTask(temp).then(data => {

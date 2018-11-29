@@ -1,5 +1,4 @@
 const initiativeusermapping = require('../../model/initiative-user-mapping');
-var uniqid = require('uniqid');
 
 
 function getInitiativeUser(temp){                   //get all users of a particular initiative
@@ -36,7 +35,7 @@ function createNewInitiative(temp) {   //creat initiative and assign that user a
     return new Promise(function (resolve,reject) {
         const newInitiativeUser = new initiativeusermapping({
             initiative: {
-                id : uniqid(),
+                id : temp.id,
                 name : temp.name
             },
             members:[

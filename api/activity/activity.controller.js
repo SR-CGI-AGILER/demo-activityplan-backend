@@ -27,7 +27,7 @@ function createActivityPlanResponse(req, res) {
         
     }).catch(function(err){
         res.send({
-            message: "Something went wrong!"
+            message: err
         });
     });
 

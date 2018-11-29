@@ -1,5 +1,7 @@
 const initiativeUserDao = require('../../dao/initiative-user/initiative-user.dao')
 const userInitiativeDao = require('../../dao/user-initiative/user-initiative.dao');
+var uniqid = require('uniqid');
+
 
 function getUsers(req, res) {
     let temp = {
@@ -18,23 +20,28 @@ function getUsers(req, res) {
 function createNewInitiativeResponse(req,res){
     let temp = {
         name: req.body.name,
+        id : uniqid(),
         members: req.body.members 
     }
     initiativeUserDao.createNewInitiative(temp).then(doc => {
-        res.status('201').send({
-            data:doc
-         })
+        console.log(temp,"FUN!")
+        addInitiaviteToUser(req,res,temp.id);
+        // res.status('201').send({
+        //     data:doc
+        //  })
      }).catch(err => {
           res.send({message:'something went wrong', 
          error: err})
      })
  }
 
-function addInitiaviteToUser(req, res) {
-    temp = {
+function addInitiaviteToUser(req,res,x) {
+    console.log("fun","asdsad");
+    console.log(req.body,"asdasdasdsad")
+    let temp = {
         email: req.body.members.email,
-        initiativeId: req.body.id,
-        initiativeName: req.body.initiativeName
+        initiativeId: x,
+        initiativeName: req.body.name
     }
     console.log(temp, "function")
     userInitiativeDao.addInitiative(temp).then(function (data) {

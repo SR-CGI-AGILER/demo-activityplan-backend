@@ -10,7 +10,7 @@ function createActivityPlan(plan) {
         
         newActivityPlan.save(function (err, data) {
             if (err) {
-                console.log("ERROR");
+                console.log(err);
                 reject(err)
             } else {
                 resolve(data);

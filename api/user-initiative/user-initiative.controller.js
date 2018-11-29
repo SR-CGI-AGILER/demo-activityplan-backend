@@ -16,7 +16,7 @@ function getInitiativesResponse(req,res){
 
 function addInitiativeResponse(req,res) {
     let temp = {
-        id: req.body.initiativeId,
+        initiativeId: req.body.initiativeId,
         email : req.body.email,
         initiativeName : req.body.initiativeName
     }

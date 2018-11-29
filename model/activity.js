@@ -2,7 +2,7 @@ var mongoose = require('../db-connection/mongo');
 var Schema = mongoose.Schema;
 
 var activitySchema = new Schema({
-    createdAt: {type:Date, unique:true},
+    createdAt: Date,
     initiatives: String,
     // members: [],
     
