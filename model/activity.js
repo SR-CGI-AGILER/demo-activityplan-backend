@@ -4,6 +4,8 @@ var Schema = mongoose.Schema;
 var activitySchema = new Schema({
     createdAt: {type:Date, unique:true},
     initiatives: String,
+    // members: [],
+    
     createdBy: {},
     tasks: [{
         text:String,

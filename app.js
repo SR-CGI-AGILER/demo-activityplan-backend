@@ -5,13 +5,15 @@ const teamCopy = require('./api/teamCopy/index');
 const backlog = require('./api/backlog/index');
 // const activity = require('./api/activity/index')
 const scheduled = require('./api/scheduled/index')
+const initiativeusermapping = require('./api/initiative-user/index')
+const userinitiativemapping = require('./api/user-initiative/index')
 const user = require('./api/user/index');
 const path = require('path');
 
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const http = require('http').Server(app);
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 const ENV = require('./config/environment');
 
 
@@ -41,6 +43,8 @@ app.use(ENV.apiEndPoint,teamCopy)
 app.use(ENV.apiEndPoint,backlog)
 app.use(ENV.apiEndPoint,scheduled)
 app.use(ENV.apiEndPoint,user)
+app.use(ENV.apiEndPoint,initiativeusermapping)
+app.use(ENV.apiEndPoint,userinitiativemapping)
 
 http.listen(port, function () {
     console.log("listening on port:" + port);
