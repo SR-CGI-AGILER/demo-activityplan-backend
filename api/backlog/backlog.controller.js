@@ -19,7 +19,7 @@ function getBacklogTasksResponse(req,res){
 
 function addBacklogTaskResponse(req,res){
     let temp = {
-        initiativeid : req.body.initiativeId,
+        initiativeid : req.params.initiativeId,
         initiativeName: req.body.initiativeName,
         tasks: req.body.tasks
     }
@@ -52,4 +52,21 @@ function addBacklogTaskToActivityPlanResponse(req,res) {
     })
 }
 
-module.exports = { getBacklogTasksResponse, addBacklogTaskResponse, addBacklogTaskToActivityPlanResponse}
+function assignOwnerResponse(req,res) {
+    let temp = {
+        name : req.body.name,
+        email: req.body.email,
+        profilePicUrl:  req.body.profilePicUrl,
+        initiativeId: req.params.initiativeId,
+        taskid: req.body.taskId
+}
+    backlogDao.assignOwner(temp).then((data) => {
+        res.status('200').send({
+            data:data
+        })
+    }).catch(err => {
+        res.send(err)
+    })
+}
+
+module.exports = { getBacklogTasksResponse, assignOwnerResponse, addBacklogTaskResponse, addBacklogTaskToActivityPlanResponse}

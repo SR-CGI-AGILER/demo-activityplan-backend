@@ -66,13 +66,45 @@ function deleteTaskFromBacklog(task){
             "_id":task.initiativeid,
             "tasks._id": task.taskid
         }, function(err,doc){
-            if(err)
-            reject(err)
+            if(err){
+                reject(err)
+            }
             else{
                 doc.tasks.pull(doc.tasks[0]._id)
                 doc.save();
                 resolve(doc);
             }
+        })
+    })
+}
+
+function assignOwner(temp) { 
+    return new Promise(function(resolve,reject) {
+        backlog.findOne({
+            'initiativeId': temp.initiativeId
+    }, function(err,data) {
+        if (err) {
+            reject(err) 
+        }else {            
+            data.tasks.map(function(e) {
+                console.log(e._id.toString(),temp.taskid)
+                if ((e._id).toString() === temp.taskid) { 
+                    e.owner = temp.name
+                    return e
+                }else {
+                    console.log("in else")
+                    return e
+                }
+            })
+        } 
+            data.save(function(err,data){
+                if(err){
+                    reject(err)
+                }
+                else{
+                    resolve(data)
+                }
+            })
         })
     })
 }
@@ -94,4 +126,4 @@ function deleteTaskFromBacklog(task){
 //     })
 // }
 
-module.exports = {getBacklogTasks,addBacklogTask,deleteTaskFromBacklog}
+module.exports = {getBacklogTasks,addBacklogTask,assignOwner,deleteTaskFromBacklog}
