@@ -5,7 +5,7 @@ var uniqid = require('uniqid');
 function getUserInitiative(temp){
     return new Promise(function (resolve, reject) {
        
-        userinitiativemapping.find({"email":temp.email }).exec((err, data) => {
+        userinitiativemapping.findOne({"email":temp.email }).exec((err, data) => {
             if(err)
             reject(err)
             else
