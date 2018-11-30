@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var teamCopySchema = new Schema({
     createdAt: Date,
-    initiatives: String,
+    initiative: String,
+    initiativeId: String,
     createdBy: {},
     tasks: [{
         text:String,

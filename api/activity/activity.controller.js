@@ -11,7 +11,8 @@ function createActivityPlanResponse(req, res) {
 
     const plan = {
         createdAt: req.body.createdAt,
-        initiatives: req.body.initiatives,
+        initiative: req.body.initiative,
+        initiativeId: req.body.initiativeId,
         tasks: req.body.tasks        
     }
 
@@ -36,7 +37,7 @@ function createActivityPlanResponse(req, res) {
 function getActivityPlanResponse(req, res) {
     // console.log(req)
     const date = req.query.date;
-    const initiatives = req.query.initiatives;
+    const initiativeId = req.query.initiativeId;
 
     console.log(initiatives)
 
@@ -46,7 +47,7 @@ function getActivityPlanResponse(req, res) {
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth()+ 1)).slice(-2);
         var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        activityDao.getActivityPlan(today, "default").then(doc => {
+        activityDao.getActivityPlan(today, initiativeId).then(doc => {
             if(doc){
                 res.send({
                     payload: {

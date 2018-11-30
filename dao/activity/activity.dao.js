@@ -4,7 +4,8 @@ function createActivityPlan(plan) {
     return new Promise(function (resolve, reject) {
         const newActivityPlan = new activity({
             createdAt: plan.createdAt,
-            initiatives: plan.initiatives,
+            initiative: plan.initiative,
+            initiativeId: plan.initiativeId,
             tasks: plan.tasks
         })
         
@@ -20,12 +21,12 @@ function createActivityPlan(plan) {
 }
 
 
-function getActivityPlan(today,initiatives) {
-    console.log(initiatives)
+function getActivityPlan(today,initiativeId) {
+    console.log(initiativeId)
     return new Promise(function (resolve, reject) {
         activity.findOne({
             "createdAt": today,
-            "initiatives":initiatives
+            "initiativeId":initiativeId
         }, function (err, data) {
             if (err)
                 reject(err);

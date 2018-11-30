@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var activitySchema = new Schema({
     createdAt: Date,
-    initiatives: String,
+    initiative: String,
+    initiativeId: String,
     // members: [],
     
     createdBy: {},
