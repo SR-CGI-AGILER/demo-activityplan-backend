@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var scheduled = new Schema({
     initiative: String,
-    initiativeId:Number,
+    initiativeId:String,
     tasks:[{ 
         text:String,
         projectName: String,

@@ -1,9 +1,12 @@
 const scheduledDao = require('../../dao/scheduled/scheduled.dao')
 
 function createScheduledTaskResponse(req,res) {
- 
+    let data={
+       body:req.body,
+       initiativeId:req.params.initiativeId 
+    };
    
-    scheduledDao.createScheduledTask(req.body).then(doc =>{
+    scheduledDao.createScheduledTask(data).then(doc =>{
         res.status('201').send({
            data:doc
         })

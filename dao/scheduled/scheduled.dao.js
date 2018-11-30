@@ -11,12 +11,12 @@ function createScheduledTask(task) {
             var today = now.getFullYear() + "-" + (month) + "-" + (day);
             console.log(new Date(today).getTime())
 
-            let temp = (task.initiative).trim()
+            let temp = (task.body.initiative).trim()
             console.log(temp,"temppp")
                 if (temp.length !== 0) {
-                    task.initiative = task.initiative
+                    task.body.initiative = task.body.initiative
                 }else{
-                    task.initiative = "default"
+                    task.body.initiative = "default"
                 }
         scheduled.findOne({ "initiativeId":task.initiativeId }, function (err, doc) {
             console.log(doc, "db Object")
@@ -25,8 +25,8 @@ function createScheduledTask(task) {
                 reject(err)
             } else {
                 // console.log(doc.tasks)
-                if (doc) {
-                    task.tasks.map(function (eachitem) {
+               
+                    task.body.tasks.map(function (eachitem) {
                         
                         doc.tasks.push({ text: eachitem.text, projectName: eachitem.projectName,owner:eachitem.owner, scheduled_For: eachitem.scheduled_For,scheduled_On: new Date(today).getTime()})
                         
@@ -41,29 +41,29 @@ function createScheduledTask(task) {
                         }
     
                     })
-                } else {
-                    const doc = new scheduled()
               
-                        doc.initiative = task.initiative
-                        doc.initiativeId = task.initiativeId
-                        console.log(doc.initiativeId,"hhhhh")
+//                     const doc = new scheduled()
+              
+//                         doc.initiative = task.body.initiative
+//                         doc.initiativeId = task.initiativeId
+//                         console.log(doc.initiativeId,"hhhhh")
                    
-                    doc.tasks = []
-                    task.tasks.map(eachitem => {
-                        doc.tasks.push({text: eachitem.text, projectName: eachitem.projectName,owner:eachitem.owner, scheduled_For: eachitem.scheduled_For,scheduled_On: new Date(today).getTime()})
-                    })
-                    console.log(doc,"FGV@@@@@@@@@@@")
-                    doc.save(function (err, data) {
-                        if (err){
-console.log(err,"err")
-                            reject(err)
-                        }
-                        else {
-                            resolve(data)
-                        }
+//                     doc.tasks = []
+//                     task.body.tasks.map(eachitem => {
+//                         doc.tasks.push({text: eachitem.text, projectName: eachitem.projectName,owner:eachitem.owner, scheduled_For: eachitem.scheduled_For,scheduled_On: new Date(today).getTime()})
+//                     })
+//                     console.log(doc,"FGV@@@@@@@@@@@")
+//                     doc.save(function (err, data) {
+//                         if (err){
+// console.log(err,"err")
+//                             reject(err)
+//                         }
+//                         else {
+//                             resolve(data)
+//                         }
     
-                    })
-        }
+//                     })
+        // }
     }
   
                 
@@ -108,14 +108,22 @@ function getDefaultScheduledOnTask(task) {
 
         scheduled.findOne({ "initiativeId": task 
     }, function (err, data) {
-        if(err)
-        reject(err)
+        if(err){
+            console.log(err,"hhhh")
+            reject(err)
+        }
+     
         else {
-            data.tasks.map(eachTask => {
-                if(eachTask.scheduled_On == new Date(today).getTime())
-               
-                resolve(data);
-            })
+            if(!data){
+                resolve("no data")
+            }else{
+                data.tasks.map(eachTask => {
+                    if(eachTask.scheduled_On == new Date(today).getTime())
+                   
+                    resolve(data);
+                })
+            }
+            
         }
     })
 })
@@ -146,8 +154,17 @@ function getDefaultScheduledForTask(task) {
         var today = now.getFullYear() + "-" + (month) + "-" + (day);
        console.log(new Date(new Date().getFullYear(), parseInt(month), parseInt(day)))
         scheduled.findOne({"initiativeId":task }).exec((err, data) => {
-                             console.log(err,  data);
+            if(err){
+                resolve(err)
+            }else{
+                if(!data){
+                    resolve("no data")
+                }else{
+                    // console.log(err,  data);
                              resolve(data);
+                }
+            }
+                             
         });
     })
 }
