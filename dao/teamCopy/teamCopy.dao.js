@@ -21,7 +21,8 @@ function createTeamCopy(plan) {
 function updateTeamCopy(data) {
     return new Promise(function (resolve, reject) {
         teamCopy.findOne({
-            "createdAt":new Date(data.teamCopyDate).toISOString()
+            "createdAt":new Date(data.teamCopyDate).toISOString(),
+            "initiativeId": data.initiativeId
         },function(err, doc){
             if(err)
             {

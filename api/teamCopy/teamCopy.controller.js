@@ -68,7 +68,8 @@ function getTeamCopyResponse(req, res) {
 function updateTeamCopyResponse(req, res) {
     let data1 = {
         teamCopyDate: req.params.date,
-        taskId: req.params.taskId
+        taskId: req.params.taskId,
+        initiativeId: req.params.initiativeId
     };
     teamCopyDao.updateTeamCopy(data1).then(doc => {
         res.send({
