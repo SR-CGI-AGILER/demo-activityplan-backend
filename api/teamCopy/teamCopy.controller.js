@@ -1,15 +1,12 @@
 const teamCopyDao = require('../../dao/teamCopy/teamCopy.dao');
 
 function getTeamCopyResponse(req, res) {
-    // console.log(req)
     const date = req.query.date;
     const initiativeId = req.query.initiativeId;
 
-    console.log(initiativeId)
 
     if (!date) {
         var now = new Date();
-        console.log(now, "GET");
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
         var today = now.getFullYear() + "-" + (month) + "-" + (day);
@@ -66,22 +63,42 @@ function getTeamCopyResponse(req, res) {
 }
 
 function updateTeamCopyResponse(req, res) {
-    let data1 = {
+
+    let data  ={
         teamCopyDate: req.params.date,
-        taskId: req.params.taskId,
-        initiativeId: req.params.initiativeId
-    };
-    teamCopyDao.updateTeamCopy(data1).then(doc => {
+        initiativeId: req.params.initiativeId,
+        arr : req.body
+    }
+    console.log(data.arr,"data.arr in controller");
+    teamCopyDao.updateTeamCopy(data).then(doc => {
         res.send({
             payload: {
                 data: doc
             }
         })
-    });
+    }).catch(err =>{
+        res.send(err)
+    })
+ }
 
+
+function addToTeamCopyResponse(req,res) {
+    let data = {
+        createdAt : req.params.date,
+        initiativeId : req.params.initiativeId,
+        task : req.body
+    };
+    teamCopyDao.addToTeamCopy(data).then(doc =>{
+        res.send({
+            payload: {
+                data : doc
+            }
+        })
+    })
 }
 
 module.exports = {
     getTeamCopyResponse,
-    updateTeamCopyResponse
+    updateTeamCopyResponse,
+    addToTeamCopyResponse
 }

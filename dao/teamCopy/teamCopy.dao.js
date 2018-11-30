@@ -18,52 +18,6 @@ function createTeamCopy(plan) {
     })
 }
 
-function updateTeamCopy(data) {
-    return new Promise(function (resolve, reject) {
-        teamCopy.findOne({
-            "createdAt":new Date(data.teamCopyDate).toISOString(),
-            "initiativeId": data.initiativeId
-        },function(err, doc){
-            if(err)
-            {
-                console.log(err)
-            reject(err)
-            }
-            else{
-                doc.tasks.map(function(e){
-                let a = e._id.toString();
-                    console.log(a,data.taskId,"each task")
-                    if(a === data.taskId){
-                        e.status = "Completed";
-                    }
-                })
-                doc.save().then(function () {
-                    resolve(doc)
-})
-                // resolve(doc);
-            }
-        
-        });
-        // console.log(a,"A")
-        // console.log(a.tasks,"is it an array?")
-        // a.tasks.map(function(e){
-        //     if(e._id === data.taskId)
-        //     {
-        //         if(e.status === "Standup"){
-        //             e.status = "Completed";
-        //         }
-        //        else
-        //        {
-        //            console.log("anirudha")
-        //        }
-        //     }
-        //     else{
-        //         console.log("atreya")
-        //     }
-        // })
-    })
-}
-
 function getTeamCopy(date, initiativeId){
     return new Promise(function (resolve, reject) {
         teamCopy.findOne({
@@ -78,8 +32,64 @@ function getTeamCopy(date, initiativeId){
     })
 }
 
+function addToTeamCopy(data) {
+    return new Promise(function (resolve, reject) {
+      
+        teamCopy.findOne({
+            "createdAt": new Date(data.createdAt).toISOString(),
+            'initiativeId': data.initiativeId
+        }, function(err, doc) {
+              if(err){
+                  reject(err)
+              }
+              else{
+                  
+                //   if(doc.initiatives === data.initiatives){
+                  
+                      doc.tasks.push(data.task);
+                //   }
+    
+                  doc.save().then(function(data){
+                      resolve(data);
+                  })
+              }
+        })
+    })
+}
+
+
+function updateTeamCopy(data) {
+    console.log(data,"data in dao");
+    return new Promise(function (resolve, reject){
+        teamCopy.findOne({
+           'createdAt': new Date(data.teamCopyDate).toISOString(),
+           'initiativeId': data.initiativeId
+                }).exec(function(err,doc) {
+            if(err)
+            {
+                reject(err)
+            }
+            else{
+                console.log(doc,"doc");
+                   doc.tasks.map(function (eachDbTask) {
+                       data.arr.map(function(eachTask) {
+                           if (eachDbTask._id.toString() === eachTask.taskId ) {
+                               eachDbTask.status = eachTask.action
+                            
+                           }
+                       })
+                   })
+                            doc.save().then(function(data) {
+                               resolve({"message": "the data is saved"})
+                            })            
+                }
+        })
+    });
+ }
+
 module.exports = {
     createTeamCopy,
     getTeamCopy,
-    updateTeamCopy
+    updateTeamCopy,
+    addToTeamCopy
 }
