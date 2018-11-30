@@ -1,11 +1,15 @@
 const backlog = require('../../model/backlog')
+const uniqid = require('uniqid');
+
 
 function getBacklogTasks(query) {
+    console.log(query)
     return new Promise(function(resolve,reject){
-        backlog.find({})
+        backlog.findOne({"initiativeId":query.initiativeid})
                 .limit(query.limit)
                 .skip(query.page * query.limit)
                 .exec(function(err,data) {
+                    console.log(query.initiativeid,"Initiative ID")
             if(err)
             reject(err)
             else
@@ -17,7 +21,7 @@ function getBacklogTasks(query) {
 
 function addBacklogTask(task){
     return new Promise(function(resolve,reject){
-        backlog.findOne({"initiative":task.initiative},function(err,doc){
+        backlog.findOne({"initiativeId":task.initiativeid},function(err,doc){
             console.log(task.initiative)
             if(err){
             reject(err)
@@ -37,14 +41,15 @@ function addBacklogTask(task){
                 }
                 else{
                     const doc = new backlog()
-                    doc.initiative = task.initiative
+                    doc.initiative = task.initiativeName
+                    doc.initiativeId = task.initiativeid
                     doc.tasks = []
                     task.tasks.map(eachitem => {
                         doc.tasks.push(eachitem)
                     })
                     doc.save(function (err,data){
                         if(err)
-                        reject(err)
+                            reject(err)
                         else{
                             resolve(data)
                         }
@@ -61,13 +66,45 @@ function deleteTaskFromBacklog(task){
             "_id":task.initiativeid,
             "tasks._id": task.taskid
         }, function(err,doc){
-            if(err)
-            reject(err)
+            if(err){
+                reject(err)
+            }
             else{
                 doc.tasks.pull(doc.tasks[0]._id)
                 doc.save();
                 resolve(doc);
             }
+        })
+    })
+}
+
+function assignOwner(temp) { 
+    return new Promise(function(resolve,reject) {
+        backlog.findOne({
+            'initiativeId': temp.initiativeId
+    }, function(err,data) {
+        if (err) {
+            reject(err) 
+        }else {            
+            data.tasks.map(function(e) {
+                console.log(e._id.toString(),temp.taskid)
+                if ((e._id).toString() === temp.taskid) { 
+                    e.owner = temp.name
+                    return e
+                }else {
+                    console.log("in else")
+                    return e
+                }
+            })
+        } 
+            data.save(function(err,data){
+                if(err){
+                    reject(err)
+                }
+                else{
+                    resolve(data)
+                }
+            })
         })
     })
 }
@@ -89,4 +126,4 @@ function deleteTaskFromBacklog(task){
 //     })
 // }
 
-module.exports = {getBacklogTasks,addBacklogTask,deleteTaskFromBacklog}
+module.exports = {getBacklogTasks,addBacklogTask,assignOwner,deleteTaskFromBacklog}

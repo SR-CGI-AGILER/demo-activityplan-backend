@@ -4,7 +4,8 @@ function createTeamCopy(plan) {
     return new Promise(function (resolve, reject) {
         const newTeamCopy = new teamCopy({
             createdAt: plan.createdAt,
-            initiatives: plan.initiatives,
+            initiative: plan.initiative,
+            initiativeId: plan.initiativeId,
             tasks: plan.tasks
         })
         newTeamCopy.save(function (err, data) {
@@ -62,11 +63,11 @@ function updateTeamCopy(data) {
     })
 }
 
-function getTeamCopy(date, initiatives){
+function getTeamCopy(date, initiativeId){
     return new Promise(function (resolve, reject) {
         teamCopy.findOne({
             "createdAt": date,
-            "initiatives":initiatives
+            "initiativeId":initiativeId
         }, function (err, data) {
             if (err)
                 reject(err);
