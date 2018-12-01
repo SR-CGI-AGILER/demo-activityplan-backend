@@ -13,7 +13,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const http = require('http').Server(app);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const ENV = require('./config/environment');
 
 
