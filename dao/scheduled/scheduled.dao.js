@@ -1,7 +1,7 @@
 const scheduled = require('../../model/scheduled');
 
 function createScheduledTask(task) {
-    // console.log(task)
+    console.log(task,"task IN DAO")
 
     return new Promise(function (resolve, reject) {
         var now = new Date();
@@ -24,49 +24,43 @@ function createScheduledTask(task) {
             if (err) {
                 reject(err)
             } else {
-                // console.log(doc.tasks)
+                
+                if(doc){
 
-                task.body.tasks.map(function (eachitem) {
-
-                    doc.tasks.push({ text: eachitem.text, projectName: eachitem.projectName, owner: eachitem.owner, scheduled_For: eachitem.scheduled_For, scheduled_On: new Date(today).getTime() })
-
-                })
-                console.log(doc, "new")
-                doc.save(function (err, data) {
-                    if (err) {
-                        reject(err)
-                    }
-                    else {
-                        resolve(data)
-                    }
-
-                })
-
-                //                     const doc = new scheduled()
-
-                //                         doc.initiative = task.body.initiative
-                //                         doc.initiativeId = task.initiativeId
-                //                         console.log(doc.initiativeId,"hhhhh")
-
-                //                     doc.tasks = []
-                //                     task.body.tasks.map(eachitem => {
-                //                         doc.tasks.push({text: eachitem.text, projectName: eachitem.projectName,owner:eachitem.owner, scheduled_For: eachitem.scheduled_For,scheduled_On: new Date(today).getTime()})
-                //                     })
-                //                     console.log(doc,"FGV@@@@@@@@@@@")
-                //                     doc.save(function (err, data) {
-                //                         if (err){
-                // console.log(err,"err")
-                //                             reject(err)
-                //                         }
-                //                         else {
-                //                             resolve(data)
-                //                         }
-
-                //                     })
-                // }
+                    console.log(doc)
+    
+                    task.body.tasks.map(function (eachitem) {
+    
+                        doc.tasks.push({ text: eachitem.text, projectName: eachitem.projectName, owner: eachitem.owner, scheduled_For: eachitem.scheduled_For, scheduled_On: new Date(today).getTime() })
+    
+                    })
+                    console.log(doc, "new")
+                    doc.save(function (err, data) {
+                        if (err) {
+                            reject(err)
+                        }
+                        else {
+                            resolve(data)
+                        }
+                    })
+                }
+                else{
+                    const doc= new scheduled();
+                    doc.initiative = task.body.initiative;
+                    doc.initiativeId = task.initiativeId;
+                    doc.tasks = [];
+                    doc.tasks.push(task.body.tasks);
+                    doc.save(function(err,data){
+                        if(err){
+                            reject(err);
+                        }
+                        else{
+                            resolve(data);
+                        }
+                    })
+                    
+                }
             }
-
-
         })
 
     })
@@ -115,15 +109,19 @@ function getDefaultScheduledOnTask(task) {
             }
 
             else {
-                // console.log(data,"DAODAOAOD")
+                console.log(data,"DAODAOAOD")
                 if (data === null) {
                     console.log(data,"HAHA")
                     resolve(data)
                 } else {
+
                     data.tasks.map(eachTask => {
-                        if (eachTask.scheduled_On == new Date(today).getTime())
+                        console.log(eachTask.scheduled_On,new Date().getTime() , typeof eachTask.scheduled_On, "MAP scheduledOn")
+                        if (eachTask.scheduled_On === new Date().getTime()) {
 
                             resolve(data);
+                        }
+
                     })
                 }
 
