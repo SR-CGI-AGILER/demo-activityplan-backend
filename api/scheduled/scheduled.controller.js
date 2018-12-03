@@ -123,9 +123,8 @@ function getDefaultScheduledForTaskResponse(req, res) {
 
 function changeScheduledForTaskResponse(req, res) {
     let data = {
-        taskId: req.params.taskId,
         initiativeId: req.params.initiativeId,
-        scheduled_For: req.body.scheduled_For
+        arr: req.body.arr
     };
     console.log(data, "this is controller for due date")
     scheduledDao.changeScheduledForTask(data).then(data => {

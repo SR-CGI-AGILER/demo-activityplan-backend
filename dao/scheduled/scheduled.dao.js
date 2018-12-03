@@ -19,7 +19,7 @@ function createScheduledTask(task) {
             task.body.initiative = "default"
         }
         scheduled.findOne({ "initiativeId": task.initiativeId }, function (err, doc) {
-            console.log(doc, "db Object")
+            console.log(task.body, "db Object")
 
             if (err) {
                 reject(err)
@@ -27,13 +27,12 @@ function createScheduledTask(task) {
                 
                 if(doc){
 
-                    console.log(doc)
+                    console.log(doc.tasks,"docccc")
     
-                    task.body.tasks.map(function (eachitem) {
+                        console.log(task.body)
+                        doc.tasks.push({ text:task.body.tasks.text, projectName: task.body.tasks.projectName, owner: task.body.owner, scheduled_For: task.body.tasks.scheduled_For, scheduled_On: new Date(today).getTime() })
     
-                        doc.tasks.push({ text: eachitem.text, projectName: eachitem.projectName, owner: eachitem.owner, scheduled_For: eachitem.scheduled_For, scheduled_On: new Date(today).getTime() })
-    
-                    })
+                   
                     console.log(doc, "new")
                     doc.save(function (err, data) {
                         if (err) {
@@ -49,7 +48,10 @@ function createScheduledTask(task) {
                     doc.initiative = task.body.initiative;
                     doc.initiativeId = task.initiativeId;
                     doc.tasks = [];
-                    doc.tasks.push(task.body.tasks);
+                    
+    
+                    doc.tasks.push({ text:task.body.tasks.text, projectName: task.body.tasks.projectName, owner: task.body.owner, scheduled_For: task.body.tasks.scheduled_For, scheduled_On: new Date(today).getTime() })
+                
                     doc.save(function(err,data){
                         if(err){
                             reject(err);
@@ -116,8 +118,8 @@ function getDefaultScheduledOnTask(task) {
                 } else {
 
                     data.tasks.map(eachTask => {
-                        console.log(eachTask.scheduled_On,new Date().getTime() , typeof eachTask.scheduled_On, "MAP scheduledOn")
-                        if (eachTask.scheduled_On === new Date().getTime()) {
+                        console.log(eachTask.scheduled_On,new Date(today).getTime() , typeof eachTask.scheduled_On, "MAP scheduledOn")
+                        if (eachTask.scheduled_On === new Date(today).getTime()) {
 
                             resolve(data);
                         }
@@ -179,9 +181,13 @@ function changeScheduledForTask(task) {
             if (err)
                 reject(err)
             else {
-                data.tasks.map(eachTask => {
-                    if (eachTask._id == task.taskId)
-                        eachTask.scheduled_For = task.scheduled_For
+                data.tasks.map(function (eachDbTask) {
+                    task.arr.map(function(eachTask) {
+                        if (eachDbTask._id.toString() === eachTask.taskId ) {
+                            eachDbTask.scheduled_For = eachTask.scheduled_For
+                         
+                        }
+                    })
                 })
             }
             data.save().then(function () {
