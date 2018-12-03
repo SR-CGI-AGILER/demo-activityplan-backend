@@ -2,47 +2,47 @@ const userinitiativemapping = require('../../model/user-initiative-mapping');
 var uniqid = require('uniqid');
 
 
-function getUserInitiative(temp){
+function getUserInitiative(temp) {
     return new Promise(function (resolve, reject) {
-       
-        userinitiativemapping.findOne({"email":temp.email }).exec((err, data) => {
-            if(err)
-            reject(err)
+
+        userinitiativemapping.findOne({ "email": temp.email }).exec((err, data) => {
+            if (err)
+                reject(err)
             else
-               resolve(data);
-            })
-        });
+                resolve(data);
+        })
+    });
 }
 
 function addInitiative(temp) {
     console.log("here")
-    return new Promise(function(resolve,reject) {
-        userinitiativemapping.findOne({"email": temp.email}).exec((err,data) =>{
-            if(err){
-            reject(err)
-            console.log("if")
+    return new Promise(function (resolve, reject) {
+        userinitiativemapping.findOne({ "email": temp.email }).exec((err, data) => {
+            if (err) {
+                reject(err)
+                console.log("if")
             }
-            else{
+            else {
                 console.log("else")
-                console.log(data,"in else")
-                if(data){
-                    data.initiative.push({initiativeId: temp.initiativeId, initiativeName: temp.initiativeName})
-                    data.save(function(err,data){
-                        if(err)
+                console.log(data, "in else")
+                if (data) {
+                    data.initiative.push({ initiativeId: temp.initiativeId, initiativeName: temp.initiativeName })
+                    data.save(function (err, data) {
+                        if (err)
                             reject(err)
                         else
                             resolve(data)
                     })
                 }
-                else{
+                else {
                     const data = new userinitiativemapping()
                     data.email = temp.email
-                    data.initiative.push({initiativeId:temp.initiativeId , initiativeName: temp.initiativeName})
-                    
-                    data.save(function (err,data){
-                        if(err)
+                    data.initiative.push({ initiativeId: temp.initiativeId, initiativeName: temp.initiativeName })
+
+                    data.save(function (err, data) {
+                        if (err)
                             reject(err)
-                        else{
+                        else {
                             resolve(data)
                         }
                     })
@@ -50,6 +50,27 @@ function addInitiative(temp) {
             }
         })
     })
-}    
-
-module.exports = { getUserInitiative, addInitiative }
+}
+function deleteInitiativeFromUser(initiative) {
+    return new Promise(function (resolve, reject) {
+        userinitiativemapping.update({
+            email: initiative.email
+        }, {
+                initiative: {
+                    $pull: {
+                        // $elemMatch: {
+                            initiativeId: initiative.id
+                        // }
+                    }
+                }
+            }, function (err, obj) {
+                if (err) {
+                    reject(err)
+                } else {
+                    console.log(obj, "is it really deleted from the sub documents..??")
+                    resolve('ok')
+                }
+            })
+    })
+}
+module.exports = { getUserInitiative, addInitiative, deleteInitiativeFromUser }
