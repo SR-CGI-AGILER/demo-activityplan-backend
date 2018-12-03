@@ -61,4 +61,16 @@ function postUsers(req,res){
         res.send({message:'soemehfrrj', error: err})
     })
 }
-module.exports = { getUsers , postUsers, createNewInitiativeResponse } 
+function createDefaultInitiativeResponse(req,res){
+    let temp = {
+        name : req.body.name,
+        id:"default000",
+        members: req.body.members 
+    }
+    initiativeUserDao.createDefaultInitiative(temp).then(doc => {
+        addInitiaviteToUser(req, res,temp.id)
+    }).catch(err => {
+        res.send({message:'soemehfrrj', error: err})
+    })
+}
+module.exports = { getUsers , postUsers, createNewInitiativeResponse,createDefaultInitiativeResponse } 

@@ -57,6 +57,31 @@ function createNewInitiative(temp) {   //creat initiative and assign that user a
         })
     })
 }
+function createDefaultInitiative(temp){
+    return new Promise(function (resolve,reject) {
+        const newInitiativeUser = new initiativeusermapping({
+            initiative: {
+                id : temp.id,
+                name : temp.name
+            },
+            members:[
+                {
+                    name : temp.members.name,
+                    email : temp.members.email,
+                    profilePicUrl : temp.members.profilePicUrl,
+                    owner: true
+                }
+            ]
+        })
+        newInitiativeUser.save(function (err, data) {
+            if (err) {
+                // console.log("ERROR");
+                reject(err)
+            } else {
+                resolve(data);
+            }
+        })
+    })
+}
 
-
-module.exports = { getInitiativeUser, addUserToInitiative, createNewInitiative }
+module.exports = { getInitiativeUser, addUserToInitiative, createNewInitiative ,createDefaultInitiative}

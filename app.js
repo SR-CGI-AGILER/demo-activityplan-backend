@@ -26,12 +26,10 @@ const ENV = require('./config/environment');
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         next();
-    });
+    }); 
 // }
 // console.log(path.resolve(__dirname , '../' , 'agiler-ui/dist/'))
 // app.use('/', require('express').static(path.resolve(__dirname ,  './dist')));
-
-
 
 app.use(bodyParser.urlencoded({
     extended: false
