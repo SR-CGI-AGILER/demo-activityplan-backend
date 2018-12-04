@@ -10,7 +10,7 @@ function createActivityPlanResponse(req, res) {
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
 
     const plan = {
-        createdAt: req.body.createdAt,
+        createdAt: today,
         initiative: req.body.initiative,
         initiativeId: req.body.initiativeId,
         tasks: req.body.tasks        
