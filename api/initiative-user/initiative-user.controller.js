@@ -45,7 +45,7 @@ function addInitiaviteToUser(req, res, x) {
     console.log(req.body, "asdasdasdsad")
     let temp = {
         email: req.body.members.email,
-        initiativeId: req.body.id,
+        initiativeId: x,
         initiativeName: req.body.name
     }
     userInitiativeDao.addInitiative(temp).then(function (data) {
@@ -68,11 +68,16 @@ function postUsers(req, res) {
 function createDefaultInitiativeResponse(req, res) {
     let temp = {
         name: req.body.name,
-        id: "default000",
+        id: uniqid(),
         members: req.body.members
     }
     initiativeUserDao.createDefaultInitiative(temp).then(doc => {
         addInitiaviteToUser(req, res, temp.id)
+        res.send({
+            payload: {
+                data: doc
+            }
+        })
     }).catch(err => {
         res.send({ message: 'soemehfrrj', error: err })
     })
