@@ -60,7 +60,7 @@ function postUsers(req, res) {
         members: req.body.members
     }
     initiativeUserDao.addUserToInitiative(temp).then(doc => {
-        addInitiaviteToUser(req, res)
+        addInitiaviteToUser(req, res, temp.id)
     }).catch(err => {
         res.send({ message: 'soemehfrrj', error: err })
     })
