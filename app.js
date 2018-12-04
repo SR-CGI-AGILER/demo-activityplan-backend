@@ -13,6 +13,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const socketServer = require('./socket-connection/index.js');
+const parser = require('socket.io-cookie-parser')
 const port = process.env.PORT || 4000;
 const ENV = require('./config/environment');
 
@@ -30,10 +33,13 @@ const ENV = require('./config/environment');
 // }
 // console.log(path.resolve(__dirname , '../' , 'agiler-ui/dist/'))
 // app.use('/', require('express').static(path.resolve(__dirname ,  './dist')));
+io.use(parser())
 
 app.use(bodyParser.urlencoded({
     extended: false
 }))
+
+socketServer.instantiateSocket(io)
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(ENV.apiEndPoint,activity)
