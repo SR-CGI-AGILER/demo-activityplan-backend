@@ -10,6 +10,14 @@ services:
       - mongo  
     links:
       - mongo
+
+  frontend:
+    ports:
+      - 8080:8080
+    build:
+      context: ../agiler-ui
+      dockerfile: Dockerfile
+
   mongo:
     container_name: mongo
     image: mongo
