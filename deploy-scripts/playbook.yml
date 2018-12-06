@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: true
+  tasks: 
+    - name: clone the front end
+      git: 
+       repo: https://github.com/SR-CGI-AGILER/agiler-ui.git
+       dest: /home/ruchik/ansible/agiler-ui
+    - name: clone the back end
+      git: 
+        repo: https://github.com/SR-CGI-AGILER/demo-activityplan-backend.git
+        dest: /home/ruchik/ansible/demo-activityplan-backend
+    - name: clone  the proxy server
+      git: 
+        repo: https://github.com/SR-CGI-AGILER/http-proxy-agiler.git
+        dest: /home/ruchik/ansible/http-proxy-agiler      
+    - name: run docker compose down via shell 
+      shell: docker-compose -f docker-compose.yml down --remove-orphans
+      args: 
+        chdir: /home/ruchik/ansible/demo-activityplan-backend
+    - name: remove none tagged images
+      shell: docker rmi $(docker image ls | grep none)
+    - name: remove all the stopped containers
+      shell: docker rm $(docker ps -aq)    
+    - name: run docker compose up via shell
+      shell: docker-compose -f docker-compose.yml up --build -d --remove-orphans
+      args:
+        chdir: /home/ruchik/ansible/demo-activityplan-backend
+...    
