@@ -46,7 +46,7 @@ jobs:
       #     command: ansible -i '13.233.75.155,' -m ping all
       - run: 
           name: check keys before echo 
-          command: cat ~/.ssh/id_rsa
+          command: ls ~/.ssh/
       - run:
           name: connection AWS
           command: echo {{KEY}} > ~/.ssh/id_rsa
