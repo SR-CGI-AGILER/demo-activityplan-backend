@@ -43,13 +43,13 @@ jobs:
           name: check ansible version
           command: ansible --version  
       - run:
-          name: command check ansible
+          name: Ping production server via ansible
           command: ansible -i '13.233.75.155,' --user ruchik --private-key=~/.ssh/id_rsa_b877d300de0689739f2165b9d28f44e8 -m ping all
       - run:
           name: deploy application
           command: |
             cd deploy-scripts
-            ansible-playbook -i '13'
+            ansible-playbook -i '13.233.75.155,' --user ruchik --private-key=~/.ssh/id_rsa_b877d300de0689739f2165b9d28f44e8 playbook.yml -vv -K < $SUDO_PASS
 
 workflows:
   version: 2
