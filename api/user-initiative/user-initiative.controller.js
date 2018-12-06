@@ -5,7 +5,7 @@ function getInitiativesResponse(req,res){
         email : req.params.userId
     }
     userInitiativeDao.getUserInitiative(temp).then(doc =>{
-        res.status('201').send({
+        res.status('200').send({
            data:doc
         })
     }).catch(err => {
@@ -21,7 +21,7 @@ function addInitiativeResponse(req,res) {
         initiativeName : req.body.initiativeName
     }
     userInitiativeDao.addInitiative(temp).then(doc => {
-        res.status('201').send({
+        res.status('200').send({
             data:doc
          })
      }).catch(err => {

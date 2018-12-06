@@ -19,7 +19,7 @@ function createActivityPlanResponse(req, res) {
     activityDao.createActivityPlan(plan).then(doc => {
         // console.log('I AM HERE')
         teamCopyDao.createTeamCopy(plan).then(doc => {
-            res.send({
+            res.status('201').send({
                 payload: {
                     data: doc
                 }

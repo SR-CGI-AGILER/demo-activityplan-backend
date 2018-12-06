@@ -53,3 +53,6 @@ app.use(ENV.apiEndPoint,userinitiativemapping)
 http.listen(port, function () {
     console.log("listening on port:" + port);
 });
+
+
+module.exports=app

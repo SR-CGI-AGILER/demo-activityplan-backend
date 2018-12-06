@@ -24,7 +24,7 @@ function addBacklogTaskResponse(req,res){
         tasks: req.body.tasks
     }
     backlogDao.addBacklogTask(temp).then(data => {
-        res.status('200').send({
+        res.status('201').send({
             data : data
         })
     }).catch(err => {

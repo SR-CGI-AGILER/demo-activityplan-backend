@@ -8,7 +8,7 @@ function getUsers(req, res) {
         id: req.params.initiativeId
     }
     initiativeUserDao.getInitiativeUser(temp).then(doc => {
-        res.status('201').send({
+        res.status('200').send({
             data: doc.members
         })
     }).catch(err => {
