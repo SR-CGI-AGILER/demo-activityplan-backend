@@ -53,6 +53,9 @@ jobs:
       - run:
           name: command check in AWS VM
           command: cat ~/.ssh/id_rsa
+      - run: 
+          name: change perissions of the id_rsa
+          command: chmod 400 ~/.ssh/id_rsa    
       - run:
           name: command check ansible
           command: ansible -i '13.233.75.155,' -m ping all    
