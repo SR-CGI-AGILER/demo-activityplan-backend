@@ -42,7 +42,7 @@ jobs:
           name: check ansible version
           command: ansible --version
       - run:
-          name: run sampke ansible
+          name: run sample ansible
           command: ansible -i '13.233.75.155,' -m ping all
       - run:
           name: command check in AWS VM
