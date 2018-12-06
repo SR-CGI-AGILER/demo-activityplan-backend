@@ -21,18 +21,6 @@ function loginWithGoogle(req,res){
     });   
 }
 
-// function loginWithGoogle(req, res){
-    
-//     async.waterfall([
-//         async.apply(getGoogleToken, req, res),
-//         getGoogleUserData,
-//         saveGoogleData,
-//         async.apply(sendResponse, res)
-//     ], function(err, results){
-
-//     });
-// }
-
 function getGoogleToken(req, res, cb){
     
     request
