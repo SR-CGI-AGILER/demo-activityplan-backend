@@ -20,8 +20,10 @@
         chdir: /home/ruchik/ansible/demo-activityplan-backend
     - name: remove none tagged images
       shell: docker rmi $(docker image ls | grep none)
+      ignore_errors: yes
     - name: remove all the stopped containers
-      shell: docker rm $(docker ps -aq)    
+      shell: docker rm $(docker ps -aq)
+      ignore_errors: yes    
     - name: run docker compose up via shell
       shell: docker-compose -f docker-compose.yml up --build -d --remove-orphans
       args:

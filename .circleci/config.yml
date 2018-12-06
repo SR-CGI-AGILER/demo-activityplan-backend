@@ -51,7 +51,7 @@ jobs:
             cd deploy-scripts
             touch pass.key
             echo $SUDO_PASS > ./pass.key
-            ansible-playbook -i '13.233.75.155,' --user ruchik --private-key=~/.ssh/id_rsa_b877d300de0689739f2165b9d28f44e8 playbook.yml -vv -K < ./pass.key
+            ansible-playbook -i '13.233.75.155,' --user ruchik --private-key=~/.ssh/id_rsa_b877d300de0689739f2165b9d28f44e8 playbook.yml -vv --extra-vars "ansible_sudo_pass=$SUDO_PASS"
 
 workflows:
   version: 2
