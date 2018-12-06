@@ -49,10 +49,13 @@ jobs:
           command: ls ~/.ssh/
       - run:
           name: connection AWS
-          command: echo {{KEY}} > ~/.ssh/id_rsa
+          command: echo $KEY > ~/.ssh/id_rsa
       - run:
           name: command check in AWS VM
           command: cat ~/.ssh/id_rsa
+      - run:
+          name: command check ansible
+          command: ansible -i '13.233.75.155,' -m ping all    
 workflows:
   version: 2
   build_and_test: 
