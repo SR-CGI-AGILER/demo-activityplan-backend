@@ -1,14 +1,15 @@
 ---
-version: 2
+version: 2 
 jobs: 
- build: 
-   machine:
+  build: 
+    machine:
       enable: true
-   steps: 
-     - checkout
-     - restore_cache:
+    steps: 
+      - checkout 
+      - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}z
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
       - run: npm install
       - save_cache:
           paths:
@@ -16,13 +17,37 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run test
   deploy: 
-    machine:
+     machine:
       enable: true
-    steps:
-      - name: do dir
-      - command: ls -la
-
- workflows:
+     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "89:18:ce:5f:4a:a7:de:37:77:7e:bb:51:dc:74:14:e4"
+      - run: 
+          name: do dir
+          command: ls -la
+      - run:
+          name: install Software Properties
+          command: sudo apt-get install software-properties-common 
+      - run:
+          name: add ansible repo
+          command: sudo apt-add-repository ppa:ansible/ansible
+      - run:
+          name: apt update
+          command: sudo apt-get update
+      - run:
+          name: install ansible
+          command: sudo apt-get install ansible
+      - run:
+          name: check ansible version
+          command: ansible --version
+      - run:
+          name: run sampke ansible
+          command: ansible -i '13.233.75.155,' -m ping all
+      - run:
+          name: command check in AWS VM
+          command: ls 
+workflows:
   version: 2
   build_and_test: 
     jobs: 

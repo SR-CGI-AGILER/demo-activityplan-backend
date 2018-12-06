@@ -10,14 +10,22 @@ services:
       - mongo  
     links:
       - mongo
-
   frontend:
     ports:
       - 8080:8080
     build:
       context: ../agiler-ui
       dockerfile: Dockerfile
-
+  proxy:
+    ports:
+      - "80:8080"
+    build:
+      context: ../nodejs-reverse-proxy
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - frontend
+      - app
   mongo:
     container_name: mongo
     image: mongo
