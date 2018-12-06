@@ -26,21 +26,21 @@ jobs:
       - run: 
           name: do dir
           command: ls -la
-      # - run:
-      #     name: install Software Properties
-      #     command: sudo apt-get install software-properties-common 
-      # - run:
-      #     name: add ansible repo
-      #     command: sudo apt-add-repository ppa:ansible/ansible
-      # - run:
-      #     name: apt update
-      #     command: sudo apt-get update
-      # - run:
-      #     name: install ansible
-      #     command: sudo apt-get install ansible
-      # - run:
-      #     name: check ansible version
-      #     command: ansible --version
+      - run:
+          name: install Software Properties
+          command: sudo apt-get install software-properties-common 
+      - run:
+          name: add ansible repo
+          command: sudo apt-add-repository ppa:ansible/ansible
+      - run:
+          name: apt update
+          command: sudo apt-get update
+      - run:
+          name: install ansible
+          command: sudo apt-get install ansible
+      - run:
+          name: check ansible version
+          command: ansible --version
       # - run:
       #     name: run sample ansible
       #     command: ansible -i '13.233.75.155,' -m ping all
