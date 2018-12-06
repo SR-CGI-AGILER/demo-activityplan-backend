@@ -49,7 +49,9 @@ jobs:
           name: deploy application
           command: |
             cd deploy-scripts
-            ansible-playbook -i '13.233.75.155,' --user ruchik --private-key=~/.ssh/id_rsa_b877d300de0689739f2165b9d28f44e8 playbook.yml -vv -K < $SUDO_PASS
+            touch pass.key
+            echo $SUDO_PASS > ./pass.key
+            ansible-playbook -i '13.233.75.155,' --user ruchik --private-key=~/.ssh/id_rsa_b877d300de0689739f2165b9d28f44e8 playbook.yml -vv -K < ./pass.key
 
 workflows:
   version: 2
