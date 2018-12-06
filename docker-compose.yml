@@ -20,7 +20,7 @@ services:
     ports:
       - "80:8080"
     build:
-      context: ../nodejs-reverse-proxy
+      context: ../http-proxy-agiler
       dockerfile: Dockerfile
     restart: always
     depends_on:
