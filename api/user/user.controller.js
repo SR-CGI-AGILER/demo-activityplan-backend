@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var express = require('express');
-
+var ENV = require('../../config/environment');
 
 function loginWithGoogle(req,res){
     // console.log("GOOEL")
@@ -43,7 +43,7 @@ function getGoogleToken(req, res, cb){
     })
     .send({
       'code': req.body.code,
-      'redirect_uri': 'http://localhost:4200/torii/redirect.html',
+      'redirect_uri': `http://${ENV.host}/torii/redirect.html`,
       'client_id': '1053797418071-cb49noe362osfv37v0jc25bkvqbum5qp.apps.googleusercontent.com',
       'client_secret': '7o6XfydcFK7neYRbOJs2Kuze',
       'grant_type': 'authorization_code',
