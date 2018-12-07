@@ -2,7 +2,6 @@ const initiativeusermapping = require('../../model/initiative-user-mapping');
 
 
 function getInitiativeUser(temp){                   //get all users of a particular initiative
-    console.log(temp, "what is happening")
     return new Promise(function (resolve, reject) {
        
         initiativeusermapping.findOne({ "initiative.id":temp.id}).exec((err, data) => {
@@ -19,8 +18,8 @@ function addUserToInitiative(temp) {
         initiativeusermapping.findOne({"initiative.id":temp.id},function(err,doc){
             if(err)
                 reject(err)
-            else{
-                doc.members.push({ email: temp.members.email,  owner: false})
+            else{ 
+                doc.members.push({ name:temp.members.data.name, email: temp.members.data.email, owner: false})
                 doc.save(function(err,data){
                     if(err)
                     reject(err)
@@ -50,7 +49,6 @@ function createNewInitiative(temp) {   //creat initiative and assign that user a
         })
         newInitiativeUser.save(function (err, data) {
             if (err) {
-                // console.log("ERROR");
                 reject(err)
             } else {
                 resolve(data);
@@ -76,7 +74,6 @@ function createDefaultInitiative(temp){
         })
         newInitiativeUser.save(function (err, data) {
             if (err) {
-                // console.log("ERROR");
                 reject(err)
             } else {
                 resolve(data);
@@ -87,7 +84,6 @@ function createDefaultInitiative(temp){
 
 function deleteInitiative(initiative){
     return new Promise(function(resolve, reject) {
-        console.log(initiative, "while deleting the initiaitve")
         resolve("ok")
         initiativeusermapping.deleteOne({ "initiative.id" : initiative.id }, function(err) {
             if (err) {

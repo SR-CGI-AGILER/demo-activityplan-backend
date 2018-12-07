@@ -1,17 +1,7 @@
 const user = require('../../model/user');
 
 function addRecord(name, email, profilePicUrl) {
-    // console.log(name, email, profilePicUrl,"hahahAH");
-    // console.log(checkEmail(email));
-    // checkEmail(email).then(function(data) {
-    //     console.log(data)
-    // })
-    // if(checkEmail(email)){
-    //     console.log("YES");
-    // }
-    // else {
-    //     console.log("NO");
-    // }
+    
     return new Promise(function (resolve, reject) {
         const userData = new user({
             email:email,
@@ -37,28 +27,34 @@ function addRecord(name, email, profilePicUrl) {
     })
 }
 
-// function checkEmail(email) {
-//     return new Promise(function (resolve, reject) {
-//         user.find({"email":email},(err,data)=>{
-//             if(err){
-//                 reject({
-//                     msg:"ERROR",
-//                     data:err
-//                 })
-//             }else{
-//                 console.log(data,"EMAIL")
-//                 if(data.length){
-//                     resolve(true);
-//                 }
-//                 else{
-//                     resolve(false);
-//                 }
-//             }
-//         })
-//     })
-// }
+function checkEmail(email) {
+    return new Promise(function (resolve, reject) {
+        user.findOne({"email":email},(err,data)=>{
+            if(err){
+                reject({
+                    msg:"ERROR",
+                    data:err
+                })
+            }else{
+                if(data === null){
+                    resolve({
+                        status: false,
+                        data: null
+                    });
+                }
+                else{
+                    resolve({
+                        status: true,
+                        data: data
+                    });
+                }
+            }
+        })
+    })
+}
 
 
 module.exports = {
-    addRecord
+    addRecord,
+    checkEmail
 }

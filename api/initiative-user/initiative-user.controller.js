@@ -1,5 +1,6 @@
-const initiativeUserDao = require('../../dao/initiative-user/initiative-user.dao')
+const initiativeUserDao = require('../../dao/initiative-user/initiative-user.dao');
 const userInitiativeDao = require('../../dao/user-initiative/user-initiative.dao');
+const userDao =  require('../../dao/user/user.dao');
 var uniqid = require('uniqid');
 
 
@@ -25,9 +26,9 @@ function createNewInitiativeResponse(req, res) {
         id: uniqid(),
         members: req.body.members
     }
-    console.log(temp)
+    // console.log(temp)
     initiativeUserDao.createNewInitiative(temp).then(doc => {
-        console.log(temp, "FUN!")
+        // console.log(temp, "FUN!")
         addInitiaviteToUser(req, res, temp.id);
         // res.status('201').send({
         //     data:doc
@@ -41,13 +42,12 @@ function createNewInitiativeResponse(req, res) {
 }
 
 function addInitiaviteToUser(req, res, x) {
-    // console.log("fun", "asdsad");
-    console.log(req.body, "asdasdasdsad")
     let temp = {
         email: req.body.members.email,
         initiativeId: x,
         initiativeName: req.body.name
     }
+
     userInitiativeDao.addInitiative(temp).then(function (data) {
         res.send({
             message: "user added to the initiative"
@@ -59,10 +59,19 @@ function postUsers(req, res) {
         id: req.body.id,
         members: req.body.members
     }
-    initiativeUserDao.addUserToInitiative(temp).then(doc => {
-        addInitiaviteToUser(req, res, temp.id)
-    }).catch(err => {
-        res.send({ message: 'soemehfrrj', error: err })
+    userDao.checkEmail(temp.members.email).then(function(data) {
+        if (data.status === true) {
+            temp.members = data
+            initiativeUserDao.addUserToInitiative(temp).then(doc => {
+                addInitiaviteToUser(req, res, temp.id)
+            }).catch(err => {
+                res.send({ message: 'some thing went wrong', error: err })
+            })
+        }else {
+            res.send({
+                message: "User Not Found"
+            })
+        }
     })
 }
 function createDefaultInitiativeResponse(req, res) {

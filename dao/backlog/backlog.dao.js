@@ -3,13 +3,13 @@ const uniqid = require('uniqid');
 
 
 function getBacklogTasks(query) {
-    console.log(query)
+    // console.log(query)
     return new Promise(function(resolve,reject){
         backlog.findOne({"initiativeId":query.initiativeid})
                 .limit(query.limit)
                 .skip(query.page * query.limit)
                 .exec(function(err,data) {
-                    console.log(query.initiativeid,"Initiative ID")
+                    // console.log(query.initiativeid,"Initiative ID")
             if(err)
             reject(err)
             else
@@ -22,7 +22,7 @@ function getBacklogTasks(query) {
 function addBacklogTask(task){
     return new Promise(function(resolve,reject){
         backlog.findOne({"initiativeId":task.initiativeid},function(err,doc){
-            console.log(task.initiative)
+            // console.log(task.initiative)
             if(err){
             reject(err)
             }
@@ -87,12 +87,12 @@ function assignOwner(temp) {
             reject(err) 
         }else {            
             data.tasks.map(function(e) {
-                console.log(e._id.toString(),temp.taskid)
+                // console.log(e._id.toString(),temp.taskid)
                 if ((e._id).toString() === temp.taskid) { 
                     e.owner = temp.name
                     return e
                 }else {
-                    console.log("in else")
+                    // console.log("in else")
                     return e
                 }
             })

@@ -49,6 +49,8 @@ function getGoogleToken(req, res, cb){
                 }
             })
         }
+    }).catch(err => {
+        console.log(err.text)
     })
 }
 
@@ -84,47 +86,29 @@ function getGoogleUserData(tokendata ,cb){
         }).catch(err => { 
             console.log(err);
         })
-    // }
 }
 
 function saveGoogleData(data, cb){
-    // console.log(arg2);
-    // console.log(JSON.parse(data.text).name, 'in save data')
-    // let userdata = JSON.parse(data.text);
-    //console.log(userdata);
     let obj = {
         name: data.name,
         email: data.email,
         picture: data.picture
-        // id: uuidv4()
     }
-    // console.log(obj);
-    // let jwt_token = jwt.sign({token: obj}, 'ankit');
-    // let responseObj = {
-    //     jwtToken : jwt_token
-    //     // userData : obj
-    // }
+    
     userDao.addRecord(data.name,data.email,data.picture)
         .then(newdata =>{
-            // console.log(newdata);
             return cb(null,newdata.data)
         }).catch(err => {
-            console.log(err.data,"ADD");
-            // res.send("ERROR");
+            // console.log(err.data,"ADD");
             return cb(null,err.data)
         })
 }
 function sendResponse(res, data, cb){
-    // // console.log(data.jwtToken;
-    
-    // // res.cookie('cookie','helloSwarnim', { secure:false, maxAge:120000, httpOnly: false }).send(data);
-    // // res.end('wow');
-    // console.log(data.userdata, "sendResponse");
-    console.log(data,"SEND");
+
+    // console.log(data,"SEND");
     let jwt_token = jwt.sign({token: data}, 'ankit');
     let responseObj = {
         jwtToken : jwt_token,
-        // userdata : data
     }
     res.send(responseObj);
     cb(null);
