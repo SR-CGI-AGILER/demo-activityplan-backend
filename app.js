@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'dev') {
 }
 // console.log(path.resolve(__dirname , '../' , 'agiler-ui/dist/'))
 if(process.env.NODE_ENV === 'prod'){
-    app.use('/', require('express').static(path.resolve(__dirname ,'../agiler-ui','./dist')));
+    app.use('/', require('express').static(path.resolve(__dirname ,'./dist')));
 }
 io.use(parser())
 
