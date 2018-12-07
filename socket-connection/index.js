@@ -10,14 +10,11 @@ function instantiateSocket(io){
         }
         userInitiativeDao.getUserInitiative(tempObj).then(function(result){
             result.initiative.map(eachInitiative => {
-                console.log(eachInitiative.initiativeId,"ID........")
+                // console.log(eachInitiative.initiativeId,"ID........")
                 joinRoom(eachInitiative.initiativeId,socket)
             })
         })
         socket.on('message', function(data){
-            // console.log(data, "event emitted")
-            // socket.emit('message',data)
-            console.log(socket.adapter.rooms,"ROOMS.....")
             io.in(data.initiativeId).emit('message', data)
         })
     })
@@ -25,7 +22,7 @@ function instantiateSocket(io){
 
 function joinRoom(initiativeName,socket){
     socket.join(initiativeName)
-    console.log(socket.adapter.rooms,"JOINED")
+    // console.log(socket.adapter.rooms,"JOINED")
 }
 
 module.exports = {

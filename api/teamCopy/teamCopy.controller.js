@@ -69,7 +69,7 @@ function updateTeamCopyResponse(req, res) {
         initiativeId: req.params.initiativeId,
         arr : req.body
     }
-    console.log(data.arr,"data.arr in controller");
+    // console.log(data.arr,"data.arr in controller");
     teamCopyDao.updateTeamCopy(data).then(doc => {
         res.send({
             payload: {
@@ -97,8 +97,24 @@ function addToTeamCopyResponse(req,res) {
     })
 }
 
+
+function assignOwner (req, res) {
+    let data = {
+        owner: req.body.owner || "",
+        tasks: req.body.tasks,
+        initiativeId: req.params.initiativeId
+    }
+    teamCopyDao.assignOwnerToTasks(data).then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.send({"message": "some thing went worng"})
+    })
+
+
+}
 module.exports = {
     getTeamCopyResponse,
     updateTeamCopyResponse,
-    addToTeamCopyResponse
+    addToTeamCopyResponse,
+    assignOwner
 }

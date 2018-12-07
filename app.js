@@ -23,16 +23,18 @@ const ENV = require('./config/environment');
 /**
  * Not to use cors in the PRODUCTION
  */
-// if (process.ENV === 'dev') {
+if (process.ENV === 'dev') {
     app.use(function (req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         next();
     }); 
-// }
+}
 // console.log(path.resolve(__dirname , '../' , 'agiler-ui/dist/'))
-// app.use('/', require('express').static(path.resolve(__dirname ,  './dist')));
+if(process.ENV === 'prod'){
+    app.use('/', require('express').static(path.resolve(__dirname ,'../agiler-ui','./dist')));
+}
 io.use(parser())
 
 app.use(bodyParser.urlencoded({

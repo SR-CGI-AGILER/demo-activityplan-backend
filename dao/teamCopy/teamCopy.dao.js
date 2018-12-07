@@ -59,7 +59,7 @@ function addToTeamCopy(data) {
 
 
 function updateTeamCopy(data) {
-    console.log(data,"data in dao");
+    // console.log(data,"data in dao");
     return new Promise(function (resolve, reject){
         teamCopy.findOne({
            'createdAt': new Date(data.teamCopyDate).toISOString(),
@@ -70,7 +70,7 @@ function updateTeamCopy(data) {
                 reject(err)
             }
             else{
-                console.log(doc,"doc");
+                // console.log(doc,"doc");
                    doc.tasks.map(function (eachDbTask) {
                        data.arr.map(function(eachTask) {
                            if (eachDbTask._id.toString() === eachTask.taskId ) {
@@ -87,9 +87,34 @@ function updateTeamCopy(data) {
     });
  }
 
+ function assignOwnerToTasks(data) {
+     return new Promise(function(resolve, reject){
+         let email = data.owner
+         let tasks = data.tasks
+         let initiativeId = data.initiativeId
+    
+         teamCopy.findOne({ "initiativeId" : data.initiativeId}, function(err, doc) {
+             if(err) {
+                 reject(err)
+             }else {
+                 doc.tasks.map(function(eachTask) {
+                     data.tasks.map(function(e) {
+                         if(e.taskId === eachTask._id.toString()) {
+                             eachTask.owner = email
+                         }
+                     })
+                 })
+                 doc.save(function(data) {
+                     resolve(data)
+                 })
+             }
+         })
+     })
+ }
 module.exports = {
     createTeamCopy,
     getTeamCopy,
     updateTeamCopy,
-    addToTeamCopy
+    addToTeamCopy,
+    assignOwnerToTasks
 }

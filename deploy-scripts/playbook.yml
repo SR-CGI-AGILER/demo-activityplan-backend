@@ -6,10 +6,12 @@
       git: 
        repo: https://github.com/SR-CGI-AGILER/agiler-ui.git
        dest: /home/ruchik/ansible/agiler-ui
+       force: yes
     - name: clone the back end
       git: 
         repo: https://github.com/SR-CGI-AGILER/demo-activityplan-backend.git
         dest: /home/ruchik/ansible/demo-activityplan-backend
+        force: yes
     - name: clone  the proxy server
       git: 
         repo: https://github.com/SR-CGI-AGILER/http-proxy-agiler.git
