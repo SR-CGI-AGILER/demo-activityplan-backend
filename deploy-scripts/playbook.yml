@@ -26,6 +26,8 @@
         chdir: /home/ruchik/ansible/agiler-ui
     - name: copy build to backend
       shell: cp ./dist ../demo-activityplan-backend
+      args:
+        chdir: /home/ruchik/ansible/agiler-ui
     # - name: run docker compose down via shell 
     #   shell: docker-compose -f docker-compose.yml down --remove-orphans
     #   args: 
