@@ -15,6 +15,7 @@ function instantiateSocket(io){
             })
         })
         socket.on('message', function(data){
+            console.log("Print Triggerr Messages", data)
             io.in(data.initiativeId).emit('message', data)
         })
     })
