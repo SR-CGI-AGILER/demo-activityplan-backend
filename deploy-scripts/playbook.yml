@@ -25,7 +25,7 @@
       args:
         chdir: /home/ruchik/ansible/agiler-ui
     - name: copy build to backend
-      shell: cp ./dist ../demo-activityplan-backend
+      shell: cp -r ./dist ../demo-activityplan-backend
       args:
         chdir: /home/ruchik/ansible/agiler-ui
     # - name: run docker compose down via shell 
