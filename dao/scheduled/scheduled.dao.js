@@ -1,25 +1,25 @@
 const scheduled = require('../../model/scheduled');
 
 function createScheduledTask(task) {
-    // console.log(task,"task IN DAO")
+    
 
     return new Promise(function (resolve, reject) {
         var now = new Date();
-        // console.log(now, "POST");
+        
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
         var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        // console.log(new Date(today).getTime())
+        
 
         let temp = (task.body.initiative).trim()
-        // console.log(temp, "temppp")
+        
         if (temp.length !== 0) {
             task.body.initiative = task.body.initiative
         } else {
             task.body.initiative = "default"
         }
         scheduled.findOne({ "initiativeId": task.initiativeId }, function (err, doc) {
-            // console.log(task.body, "db Object")
+            
 
             if (err) {
                 reject(err)
@@ -27,13 +27,8 @@ function createScheduledTask(task) {
                 
                 if(doc){
 
-                    // console.log(doc.tasks,"docccc")
-    
-                        // console.log(task.body)
                         doc.tasks.push({ text:task.body.tasks.text, projectName: task.body.tasks.projectName, owner: task.body.owner, scheduled_For: task.body.tasks.scheduled_For, scheduled_On: new Date(today).getTime() })
     
-                   
-                    // console.log(doc, "new")
                     doc.save(function (err, data) {
                         if (err) {
                             reject(err)
@@ -68,30 +63,6 @@ function createScheduledTask(task) {
     })
 }
 
-
-// function getScheduledOnTask() {
-//     return new Promise(function (resolve, reject) {
-//         var now = new Date();
-//         console.log(now,"POST");
-//         var day = ("0" + now.getDate()).slice(-2);
-//         var month = ("0" + (now.getMonth()+ 1)).slice(-2);
-//         var today = now.getFullYear() + "-" + (month) + "-" + (day);
-//         console.log(new Date(today).getTime())
-//         console.log("dao hai ye")
-
-//         scheduled.findOne({ "tasks.scheduled_On": new Date(today).getTime() })
-//         .exec((err, data) => {
-//             console.log(err,data,"I am data")
-
-
-//                resolve(data);
-
-//             } )
-
-//         });
-
-
-// }
 function getDefaultScheduledOnTask(task) {
     return new Promise(function (resolve, reject) {
         var now = new Date();
@@ -132,21 +103,6 @@ function getDefaultScheduledOnTask(task) {
     })
 }
 
-// function getScheduledForTask(task) {
-//     return new Promise(function (resolve, reject) {
-//         var now = new Date();
-//         console.log(now,"dao get ");
-//         var day = ("0" + now.getDate()).slice(-2);
-//         var day1= ("0"+ now.getDate()).slice(-2);
-//         var month = ("0" + (now.getMonth()+ 1)).slice(-2);
-//         var today = now.getFullYear() + "-" + (month) + "-" + (day);
-//        console.log(new Date(new Date().getFullYear(), parseInt(month), parseInt(day)))
-//         scheduled.findOne({ "tasks":  {$elemMatch :{ "scheduled_For": {$gte: new Date(today).getTime() } }} }).exec((err, data) => {
-//             console.log(err,  data);
-//             resolve(data);
-//         });
-//     })
-// }
 function getDefaultScheduledForTask(task) {
     return new Promise(function (resolve, reject) {
         var now = new Date();
@@ -163,7 +119,7 @@ function getDefaultScheduledForTask(task) {
                 if (data === null) {
                     resolve(data)
                 } else {
-                    // console.log(err,  data);
+
                     resolve(data);
                 }
             }
@@ -193,8 +149,7 @@ function changeScheduledForTask(task) {
             data.save().then(function () {
                 resolve(data)
             })
-            // console.log(data)
-            // resolve(data)
+
         })
     })
 }

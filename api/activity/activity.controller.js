@@ -2,9 +2,7 @@ const activityDao = require('../../dao/activity/activity.dao');
 const teamCopyDao = require('../../dao/teamCopy/teamCopy.dao');
 
 function createActivityPlanResponse(req, res) {
-    console.log(typeof req.body);
     var now = new Date();
-    console.log(now, "POST");
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
@@ -17,7 +15,6 @@ function createActivityPlanResponse(req, res) {
     }
 
     activityDao.createActivityPlan(plan).then(doc => {
-        // console.log('I AM HERE')
         teamCopyDao.createTeamCopy(plan).then(doc => {
             res.send({
                 payload: {
@@ -35,15 +32,11 @@ function createActivityPlanResponse(req, res) {
 }
 
 function getActivityPlanResponse(req, res) {
-    // console.log(req)
     const date = req.query.date;
     const initiativeId = req.query.initiativeId;
 
-    console.log(initiatives)
-
     if(!date){
         var now = new Date();
-        console.log(now,"GET");
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth()+ 1)).slice(-2);
         var today = now.getFullYear() + "-" + (month) + "-" + (day);

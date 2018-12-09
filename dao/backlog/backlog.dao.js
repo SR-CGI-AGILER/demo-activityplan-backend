@@ -3,13 +3,12 @@ const uniqid = require('uniqid');
 
 
 function getBacklogTasks(query) {
-    // console.log(query)
     return new Promise(function(resolve,reject){
         backlog.findOne({"initiativeId":query.initiativeid})
                 .limit(query.limit)
                 .skip(query.page * query.limit)
                 .exec(function(err,data) {
-                    // console.log(query.initiativeid,"Initiative ID")
+
             if(err)
             reject(err)
             else
@@ -22,7 +21,7 @@ function getBacklogTasks(query) {
 function addBacklogTask(task){
     return new Promise(function(resolve,reject){
         backlog.findOne({"initiativeId":task.initiativeid},function(err,doc){
-            // console.log(task.initiative)
+
             if(err){
             reject(err)
             }
@@ -87,12 +86,12 @@ function assignOwner(temp) {
             reject(err) 
         }else {            
             data.tasks.map(function(e) {
-                // console.log(e._id.toString(),temp.taskid)
+                
                 if ((e._id).toString() === temp.taskid) { 
                     e.owner = temp.name
                     return e
                 }else {
-                    // console.log("in else")
+                    
                     return e
                 }
             })
@@ -109,21 +108,5 @@ function assignOwner(temp) {
     })
 }
 
-//         task.map(eachTask => {
-//             const temp = new backlog({
-//                 "text" : eachTask.text,
-//                 "projectName" : eachTask.projectName,
-//                 "backlog" : true,
-//                 "status" : "Not Picked"
-//             })
-//             temp.save(function(err,data){
-//                 if(err)
-//                 throw err
-//                 else
-//                 resolve(data)
-//             })
-//         })
-//     })
-// }
 
 module.exports = {getBacklogTasks,addBacklogTask,assignOwner,deleteTaskFromBacklog}

@@ -22,7 +22,7 @@ function createActivityPlan(plan) {
 
 
 function getActivityPlan(today,initiativeId) {
-    // console.log(initiativeId)
+    
     return new Promise(function (resolve, reject) {
         activity.findOne({
             "createdAt": today,

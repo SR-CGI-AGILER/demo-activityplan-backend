@@ -59,7 +59,7 @@ function addToTeamCopy(data) {
 
 
 function updateTeamCopy(data) {
-    // console.log(data,"data in dao");
+    
     return new Promise(function (resolve, reject){
         teamCopy.findOne({
            'createdAt': new Date(data.teamCopyDate).toISOString(),
@@ -70,7 +70,7 @@ function updateTeamCopy(data) {
                 reject(err)
             }
             else{
-                // console.log(doc,"doc");
+                
                    doc.tasks.map(function (eachDbTask) {
                        data.arr.map(function(eachTask) {
                            if (eachDbTask._id.toString() === eachTask.taskId ) {

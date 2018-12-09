@@ -10,7 +10,6 @@ var express = require('express');
 var ENV = require('../../config/environment');
 
 function loginWithGoogle(req,res){
-    // console.log("GOOEL")
     async.waterfall([
         async.apply(getGoogleToken, req, res),
         getGoogleUserData,
@@ -50,12 +49,12 @@ function getGoogleToken(req, res, cb){
             })
         }
     }).catch(err => {
-        console.log(err.text)
+
     })
 }
 
 function getGoogleUserData(tokendata ,cb){
-    // console.log( "inside getGoogleUserData")
+    
     let access_token = tokendata.access_token;
     
     // if(true){
@@ -69,11 +68,10 @@ function getGoogleUserData(tokendata ,cb){
         .send({
         })
         .then((data)=>{
-            // console.log(err,"aftereturnr getdata");
+            
             if(data.statusCode === 200){
                 let obj = Object.assign(tokendata, JSON.parse(data.text));
-                // let jwt_token = jwt.sign({token: JSON.parse(data.text)}, 'ankit');
-                // console.log(jwt_token);
+                
                 return cb(null, obj);
             }
             else{
@@ -84,7 +82,7 @@ function getGoogleUserData(tokendata ,cb){
                 })
             }
         }).catch(err => { 
-            console.log(err);
+            
         })
 }
 
@@ -99,13 +97,12 @@ function saveGoogleData(data, cb){
         .then(newdata =>{
             return cb(null,newdata.data)
         }).catch(err => {
-            // console.log(err.data,"ADD");
+            
             return cb(null,err.data)
         })
 }
 function sendResponse(res, data, cb){
 
-    // console.log(data,"SEND");
     let jwt_token = jwt.sign({token: data}, 'ankit');
     let responseObj = {
         jwtToken : jwt_token,

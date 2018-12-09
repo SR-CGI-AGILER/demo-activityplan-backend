@@ -9,7 +9,7 @@ function addRecord(name, email, profilePicUrl) {
             profilePicUrl:profilePicUrl
         })
         userData.save(function(err,data){
-            // console.log(err, "Asdasd")
+            
             if(err){
                 reject({
                     msg:"ERROR",

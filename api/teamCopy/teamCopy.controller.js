@@ -69,7 +69,6 @@ function updateTeamCopyResponse(req, res) {
         initiativeId: req.params.initiativeId,
         arr : req.body
     }
-    // console.log(data.arr,"data.arr in controller");
     teamCopyDao.updateTeamCopy(data).then(doc => {
         res.send({
             payload: {

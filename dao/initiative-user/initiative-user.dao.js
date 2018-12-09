@@ -31,7 +31,7 @@ function addUserToInitiative(temp) {
     })
 }
 
-function createNewInitiative(temp) {   //creat initiative and assign that user as member
+function createNewInitiative(temp) {   
     return new Promise(function (resolve,reject) {
         const newInitiativeUser = new initiativeusermapping({
             initiative: {
